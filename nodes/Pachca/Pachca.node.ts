@@ -395,7 +395,10 @@ export class Pachca implements INodeType {
   description: INodeTypeDescription = {
     displayName: 'Pachca (beta)',
     name: 'pachca',
-    icon: 'file:Pachca_white_mark.png',
+    icon: {
+      light: 'file:Pachca_white_mark.png',
+      dark: 'file:Pachca_dark_mark.png',
+    },
     group: ['transform'],
     version: 1,
     subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',

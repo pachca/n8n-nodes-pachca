@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-pachca",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "description": "Кастомная нода n8n для интеграции с API мессенджера Pachca. Поддерживает управление пользователями, сообщениями, чатами, файлами и другими ресурсами.",
   "keywords": [
     "n8n-community-node-package",
