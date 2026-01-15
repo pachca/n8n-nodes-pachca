@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-pachca",
-  "version": "1.0.6",
+  "version": "1.0.19",
   "description": "Кастомная нода n8n для интеграции с API мессенджера Pachca. Поддерживает управление пользователями, сообщениями, чатами, файлами и другими ресурсами.",
   "keywords": [
     "n8n-community-node-package",
@@ -31,16 +31,18 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc && npm run copy-icons && npm run setup-n8n",
-    "copy-icons": "mkdir -p dist/nodes/Pachca && cp nodes/Pachca/icons/Pachca_white_mark.png dist/nodes/Pachca/",
-    "setup-n8n": "mkdir -p dist/n8n-structure/nodes/Pachca dist/n8n-structure/credentials && cp dist/nodes/Pachca/Pachca.node.js dist/n8n-structure/nodes/Pachca/ && cp dist/nodes/Pachca/Pachca_white_mark.png dist/n8n-structure/nodes/Pachca/ && cp dist/credentials/PachcaApi.credentials.js dist/n8n-structure/credentials/ && cp package.json dist/n8n-structure/",
+    "copy-icons": "mkdir -p dist/nodes/Pachca && cp nodes/Pachca/icons/Pachca_white_mark.png dist/nodes/Pachca/ && cp nodes/Pachca/icons/Pachca_dark_mark.png dist/nodes/Pachca/",
+    "setup-n8n": "mkdir -p dist/n8n-structure/nodes/Pachca dist/n8n-structure/credentials && cp dist/nodes/Pachca/Pachca.node.js dist/n8n-structure/nodes/Pachca/ && cp dist/nodes/Pachca/Pachca_white_mark.png dist/n8n-structure/nodes/Pachca/ && cp dist/nodes/Pachca/Pachca_dark_mark.png dist/n8n-structure/nodes/Pachca/ && cp dist/credentials/PachcaApi.credentials.js dist/n8n-structure/credentials/ && cp package.json dist/n8n-structure/",
     "dev": "tsc --watch",
     "format": "prettier nodes credentials --write",
-    "lint": "eslint nodes credentials package.json",
-    "lintfix": "eslint nodes credentials package.json --fix",
+    "lint": "eslint nodes/**/*.ts credentials/**/*.ts",
+    "lintfix": "eslint nodes/**/*.ts credentials/**/*.ts --fix",
     "prepublishOnly": "npm run build && npm run lint -s"
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "LICENSE"
   ],
   "n8n": {
     "n8nNodesApiVersion": 1,
@@ -51,8 +53,8 @@
       "dist/nodes/Pachca/Pachca.node.js"
     ]
   },
-  "dependencies": {
-    "n8n-workflow": "^1.82.0"
+  "peerDependencies": {
+    "n8n-workflow": "^1.0.0"
   },
   "devDependencies": {
     "@types/node": "^24.3.1",
