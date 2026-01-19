@@ -1,7 +1,7 @@
 {
   "name": "n8n-nodes-pachca",
-  "version": "1.0.17",
-  "description": "Кастомная нода n8n для интеграции с API мессенджера Pachca. Поддерживает управление пользователями, сообщениями, чатами, файлами и другими ресурсами.",
+  "version": "1.0.18",
+  "description": "Custom n8n node for integration with Pachca messenger API. Supports user, message, chat, file management and other resources.",
   "keywords": [
     "n8n-community-node-package",
     "pachca",
@@ -16,17 +16,17 @@
     "integration"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/pachca/n8n-nodes-pachca#readme",
+  "homepage": "https://github.com/doesntneedname/n8n-nodes-pachca#readme",
   "author": {
     "name": "doesntneedname",
-    "email": "danila@pachca.com"
+    "email": "doesntneedname@example.com"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pachca/n8n-nodes-pachca.git"
+    "url": "git+https://github.com/doesntneedname/n8n-nodes-pachca.git"
   },
   "bugs": {
-    "url": "https://github.com/pachca/n8n-nodes-pachca/issues"
+    "url": "https://github.com/doesntneedname/n8n-nodes-pachca/issues"
   },
   "main": "index.js",
   "scripts": {
@@ -35,14 +35,12 @@
     "setup-n8n": "mkdir -p dist/n8n-structure/nodes/Pachca dist/n8n-structure/credentials && cp dist/nodes/Pachca/Pachca.node.js dist/n8n-structure/nodes/Pachca/ && cp dist/nodes/Pachca/Pachca_white_mark.png dist/n8n-structure/nodes/Pachca/ && cp dist/nodes/Pachca/Pachca_dark_mark.png dist/n8n-structure/nodes/Pachca/ && cp dist/credentials/PachcaApi.credentials.js dist/n8n-structure/credentials/ && cp package.json dist/n8n-structure/",
     "dev": "tsc --watch",
     "format": "prettier nodes credentials --write",
-    "lint": "eslint nodes/**/*.ts credentials/**/*.ts",
-    "lintfix": "eslint nodes/**/*.ts credentials/**/*.ts --fix",
+    "lint": "eslint nodes credentials package.json",
+    "lintfix": "eslint nodes credentials package.json --fix",
     "prepublishOnly": "npm run build && npm run lint -s"
   },
   "files": [
-    "dist",
-    "README.md",
-    "LICENSE"
+    "dist"
   ],
   "n8n": {
     "n8nNodesApiVersion": 1,
@@ -54,7 +52,7 @@
     ]
   },
   "peerDependencies": {
-    "n8n-workflow": "^1.0.0"
+    "n8n-workflow": "*"
   },
   "devDependencies": {
     "@types/node": "^24.3.1",

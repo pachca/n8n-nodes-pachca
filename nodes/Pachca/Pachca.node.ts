@@ -3201,6 +3201,10 @@ export class Pachca implements INodeType {
                   );
                 }
 
+                // Отладка файлов ДО обработки
+                if (files) {
+                }
+
                 // Проверяем входные данные из предыдущей ноды
                 const inputItem = items[i];
 
@@ -3271,6 +3275,7 @@ export class Pachca implements INodeType {
 
                     if (fileObj && fileObj.key && fileObj.name) {
                       fileArray.push(fileObj);
+                    } else {
                     }
                   }
                 }
@@ -3449,6 +3454,7 @@ export class Pachca implements INodeType {
                 // Добавляем файлы если есть
                 if (fileArray.length > 0) {
                   messageBody.message.files = fileArray;
+                } else {
                 }
 
                 // Добавляем кнопки
@@ -3505,6 +3511,8 @@ export class Pachca implements INodeType {
                   updateButtonLayout !== 'raw_json'
                     ? (this.getNodeParameter('buttons', i, {}) as any)
                     : undefined;
+
+                // Отладка файлов для обновления
 
                 // Проверяем входные данные из предыдущей ноды
                 const updateInputItem = items[i];
@@ -3579,6 +3587,7 @@ export class Pachca implements INodeType {
 
                     if (fileObj && fileObj.key && fileObj.name) {
                       updateFileArray.push(fileObj);
+                    } else {
                     }
                   }
                 }
@@ -3745,6 +3754,8 @@ export class Pachca implements INodeType {
                     }
                   }
                 }
+
+                // Отладочная информация для update
 
                 // Формируем тело запроса для обновления
                 const updateMessageBody: any = {
@@ -4368,6 +4379,15 @@ export class Pachca implements INodeType {
                     }
                   );
                 } catch (error) {
+                  console.error('Upload params request FAILED:', error);
+                  console.error('Error details:', {
+                    status: (error as any).status,
+                    statusText: (error as any).statusText,
+                    message: (error as any).message,
+                    response: (error as any).response,
+                    responseData: (error as any).response?.data,
+                  });
+
                   // Попробуем без body
                   try {
                     uploadParams = await this.helpers.httpRequestWithAuthentication.call(
@@ -4379,6 +4399,7 @@ export class Pachca implements INodeType {
                       }
                     );
                   } catch (error2) {
+                    console.error('Upload params request FAILED (without body):', error2);
                     throw error; // Бросаем первую ошибку
                   }
                 }
@@ -4400,40 +4421,64 @@ export class Pachca implements INodeType {
 
                 // Загружаем файл на direct_url
 
-                // Формируем multipart/form-data для S3
-                // S3 требует, чтобы файл был последним параметром
-
                 // Загружаем файл (без авторизации, как указано в документации)
 
                 try {
-                  // Попробуем использовать правильный формат для S3
-                  // eslint-disable-next-line @typescript-eslint/no-var-requires
-                  const FormData = require('form-data');
-                  const form = new FormData();
+                  // Создаем multipart/form-data вручную без внешних зависимостей
+                  const boundary =
+                    '----WebKitFormBoundary' + Math.random().toString(36).substring(2, 15);
+                  const parts: Buffer[] = [];
 
-                  // Добавляем параметры в правильном порядке
-                  form.append('Content-Disposition', params['Content-Disposition']);
-                  form.append('acl', params.acl);
-                  form.append('policy', params.policy);
-                  form.append('x-amz-credential', params['x-amz-credential']);
-                  form.append('x-amz-algorithm', params['x-amz-algorithm']);
-                  form.append('x-amz-date', params['x-amz-date']);
-                  form.append('x-amz-signature', params['x-amz-signature']);
-                  form.append('key', params.key);
-                  form.append('file', fileData, {
-                    filename: fileName,
-                    contentType: contentType,
-                  });
+                  // Добавляем параметры в правильном порядке (файл должен быть последним для S3)
+                  const fields = [
+                    { name: 'Content-Disposition', value: params['Content-Disposition'] },
+                    { name: 'acl', value: params.acl },
+                    { name: 'policy', value: params.policy },
+                    { name: 'x-amz-credential', value: params['x-amz-credential'] },
+                    { name: 'x-amz-algorithm', value: params['x-amz-algorithm'] },
+                    { name: 'x-amz-date', value: params['x-amz-date'] },
+                    { name: 'x-amz-signature', value: params['x-amz-signature'] },
+                    { name: 'key', value: params.key },
+                  ];
+
+                  for (const field of fields) {
+                    parts.push(Buffer.from(`--${boundary}\r\n`));
+                    parts.push(
+                      Buffer.from(`Content-Disposition: form-data; name="${field.name}"\r\n\r\n`)
+                    );
+                    parts.push(Buffer.from(`${field.value}\r\n`));
+                  }
+
+                  // Добавляем файл последним
+                  parts.push(Buffer.from(`--${boundary}\r\n`));
+                  parts.push(
+                    Buffer.from(
+                      `Content-Disposition: form-data; name="file"; filename="${fileName}"\r\n`
+                    )
+                  );
+                  parts.push(Buffer.from(`Content-Type: ${contentType}\r\n\r\n`));
+                  parts.push(fileData);
+                  parts.push(Buffer.from(`\r\n--${boundary}--\r\n`));
+
+                  const multipartBody = Buffer.concat(parts);
 
                   responseData = await this.helpers.httpRequest.call(this, {
                     method: 'POST',
                     url: params.direct_url,
-                    body: form,
+                    body: multipartBody,
                     headers: {
-                      ...form.getHeaders(),
+                      'Content-Type': `multipart/form-data; boundary=${boundary}`,
                     },
                   });
                 } catch (error) {
+                  console.error('File upload to direct_url FAILED:', error);
+                  console.error('Upload error details:', {
+                    status: (error as any).status,
+                    statusText: (error as any).statusText,
+                    message: (error as any).message,
+                    response: (error as any).response,
+                    responseData: (error as any).response?.data,
+                  });
                   throw error;
                 }
 
@@ -5263,6 +5308,7 @@ export class Pachca implements INodeType {
           });
         }
       } catch (error) {
+        console.error('Error in Pachca node:', error);
         if (this.continueOnFail()) {
           returnData.push({
             json: {
