@@ -16,14 +16,14 @@ export class PachcaApi implements ICredentialType {
       type: 'string',
       typeOptions: { password: true },
       default: '',
-      description: 'Токен доступа к API Пачки. Получить можно в настройках разработчика.',
+      description: 'Access token for Pachca API. Can be obtained in developer settings.',
     },
     {
       displayName: 'Base URL',
       name: 'baseUrl',
       type: 'string',
       default: 'https://api.pachca.com/api/shared/v1',
-      description: 'Базовый URL API Пачки',
+      description: 'Base URL for Pachca API',
     },
     {
       displayName: 'Token Type',
@@ -33,28 +33,28 @@ export class PachcaApi implements ICredentialType {
         {
           name: 'Bot Token',
           value: 'bot',
-          description: 'Токен бота - доступ к основным методам API',
+          description: 'Bot token - access to core API methods',
         },
         {
           name: 'Admin Token',
           value: 'admin',
-          description: 'Токен администратора - доступ к управлению пользователями и тегами',
+          description: 'Admin token - access to user and tag management',
         },
         {
           name: 'Owner Token',
           value: 'owner',
-          description: 'Токен владельца - полный доступ включая экспорт',
+          description: 'Owner token - full access including export',
         },
       ],
       default: 'bot',
-      description: 'Тип токена определяет доступные методы API',
+      description: 'Token type determines available API methods',
     },
     {
       displayName: 'User ID',
       name: 'userId',
       type: 'number',
       default: '',
-      description: 'ID пользователя/бота, которому принадлежит токен (опционально)',
+      description: 'User/bot ID that owns the token (optional)',
     },
   ];
 

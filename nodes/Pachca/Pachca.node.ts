@@ -2128,8 +2128,7 @@ export class Pachca implements INodeType {
             operation: ['create'],
           },
         },
-        description:
-          'Comma-separated responsible user IDs (if empty, you are set as responsible)',
+        description: 'Comma-separated responsible user IDs (if empty, you are set as responsible)',
       },
       {
         displayName: 'Custom Properties',
@@ -2284,8 +2283,7 @@ export class Pachca implements INodeType {
                 name: 'imageUrl',
                 type: 'string',
                 default: '',
-                description:
-                  'Public image URL (used when no file is provided)',
+                description: 'Public image URL (used when no file is provided)',
               },
               {
                 displayName: 'Binary Property',
@@ -2858,8 +2856,7 @@ export class Pachca implements INodeType {
             operation: ['createView'],
           },
         },
-        description:
-          'Extra data to send on form submit (JSON string)',
+        description: 'Extra data to send on form submit (JSON string)',
       },
       {
         displayName: 'Callback ID',
