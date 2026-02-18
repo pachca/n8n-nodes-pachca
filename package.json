@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-pachca",
-  "version": "1.0.21",
+  "version": "1.0.22",
   "description": "Custom n8n node for integration with Pachca messenger API. Supports user, message, chat, file management and other resources.",
   "keywords": [
     "n8n-community-node-package",

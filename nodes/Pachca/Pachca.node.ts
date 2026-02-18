@@ -6,70 +6,70 @@ import {
   NodeOperationError,
 } from 'n8n-workflow';
 
-// Шаблоны форм для Pachca
+// Form templates for Pachca
 const FORM_TEMPLATES: { [key: string]: any } = {
   timeoff_request: {
-    title: 'Уведомление об отпуске',
-    close_text: 'Закрыть',
-    submit_text: 'Отправить заявку',
+    title: 'Time-off request',
+    close_text: 'Close',
+    submit_text: 'Submit request',
     blocks: [
       {
         type: 'plain_text',
-        text: 'Заполните форму для подачи заявки на отпуск. После отправки формы в общий чат будет отправлено уведомление.',
+        text: 'Fill out the form to submit a time-off request. After submission, a notification will be sent to the general chat.',
       },
       {
         type: 'header',
-        text: 'Основная информация',
+        text: 'Basic information',
       },
       {
         type: 'date',
         name: 'date_start',
-        label: 'Дата начала отпуска',
+        label: 'Start date',
         required: true,
-        hint: 'Выберите дату начала отпуска',
+        hint: 'Select start date',
       },
       {
         type: 'date',
         name: 'date_end',
-        label: 'Дата окончания отпуска',
+        label: 'End date',
         required: true,
-        hint: 'Выберите дату окончания отпуска',
+        hint: 'Select end date',
       },
       {
         type: 'input',
         name: 'reason',
-        label: 'Причина отпуска',
-        placeholder: 'Опишите причину отпуска',
+        label: 'Reason',
+        placeholder: 'Describe the reason for time off',
         multiline: true,
-        hint: 'Необязательное поле для дополнительной информации',
+        hint: 'Optional field for additional information',
       },
       {
         type: 'divider',
       },
       {
         type: 'header',
-        text: 'Доступность',
+        text: 'Availability',
       },
       {
         type: 'radio',
         name: 'accessibility',
-        label: 'Доступность во время отпуска',
+        label: 'Availability during time off',
         options: [
           {
-            text: 'Полностью недоступен',
+            text: 'Fully unavailable',
             value: 'unavailable',
-            description: 'Не буду отвечать на сообщения и звонки',
+            description: 'Will not respond to messages and calls',
             checked: true,
           },
           {
-            text: 'Только телефон',
+            text: 'Phone only',
             value: 'phone_only',
-            description: 'Буду отвечать только на срочные звонки',
+            description: 'Will respond to urgent calls only',
           },
           {
-            text: 'Телефон и ноутбук',
+            text: 'Phone and laptop',
             value: 'phone_laptop',
-            description: 'Буду доступен для важных вопросов',
+            description: 'Available for important matters',
           },
         ],
         required: true,
@@ -77,151 +77,151 @@ const FORM_TEMPLATES: { [key: string]: any } = {
     ],
   },
   feedback_form: {
-    title: 'Обратная связь',
-    close_text: 'Отмена',
-    submit_text: 'Отправить отзыв',
+    title: 'Feedback',
+    close_text: 'Cancel',
+    submit_text: 'Submit feedback',
     blocks: [
       {
         type: 'plain_text',
-        text: 'Поделитесь своим мнением о работе команды или проекте. Ваш отзыв поможет нам стать лучше.',
+        text: 'Share your opinion about the team or project. Your feedback helps us improve.',
       },
       {
         type: 'header',
-        text: 'Оценка',
+        text: 'Rating',
       },
       {
         type: 'select',
         name: 'rating',
-        label: 'Общая оценка',
+        label: 'Overall rating',
         options: [
-          { text: '⭐ Отлично (5)', value: '5' },
-          { text: '👍 Хорошо (4)', value: '4' },
-          { text: '😐 Нормально (3)', value: '3' },
-          { text: '👎 Плохо (2)', value: '2' },
-          { text: '💩 Ужасно (1)', value: '1' },
+          { text: '⭐ Excellent (5)', value: '5' },
+          { text: '👍 Good (4)', value: '4' },
+          { text: '😐 Average (3)', value: '3' },
+          { text: '👎 Poor (2)', value: '2' },
+          { text: '💩 Very poor (1)', value: '1' },
         ],
         required: true,
-        hint: 'Выберите оценку от 1 до 5',
+        hint: 'Select a rating from 1 to 5',
       },
       {
         type: 'divider',
       },
       {
         type: 'header',
-        text: 'Комментарии',
+        text: 'Comments',
       },
       {
         type: 'input',
         name: 'comment',
-        label: 'Ваш отзыв',
-        placeholder: 'Опишите, что понравилось или что можно улучшить',
+        label: 'Your feedback',
+        placeholder: 'Describe what you liked or what could be improved',
         multiline: true,
         required: true,
-        hint: 'Чем подробнее, тем лучше для нас',
+        hint: 'The more detail, the better',
       },
       {
         type: 'checkbox',
         name: 'categories',
-        label: 'Категории отзыва',
+        label: 'Feedback categories',
         options: [
           {
-            text: 'Работа команды',
+            text: 'Teamwork',
             value: 'team_work',
-            description: 'Взаимодействие в команде',
+            description: 'Team collaboration',
           },
           {
-            text: 'Процессы',
+            text: 'Processes',
             value: 'processes',
-            description: 'Организация рабочих процессов',
+            description: 'Workflow organization',
           },
           {
-            text: 'Инструменты',
+            text: 'Tools',
             value: 'tools',
-            description: 'Используемые инструменты и технологии',
+            description: 'Tools and technologies used',
           },
           {
-            text: 'Коммуникация',
+            text: 'Communication',
             value: 'communication',
-            description: 'Качество общения и информирования',
+            description: 'Communication and information quality',
           },
         ],
       },
     ],
   },
   task_request: {
-    title: 'Запрос задачи',
-    close_text: 'Отмена',
-    submit_text: 'Создать задачу',
+    title: 'Task request',
+    close_text: 'Cancel',
+    submit_text: 'Create task',
     blocks: [
       {
         type: 'plain_text',
-        text: 'Создайте новую задачу для команды. Укажите все необходимые детали для эффективной работы.',
+        text: 'Create a new task for the team. Provide all necessary details for effective work.',
       },
       {
         type: 'header',
-        text: 'Описание задачи',
+        text: 'Task description',
       },
       {
         type: 'input',
         name: 'title',
-        label: 'Название задачи',
-        placeholder: 'Краткое описание задачи',
+        label: 'Task title',
+        placeholder: 'Brief task description',
         required: true,
         max_length: 100,
-        hint: 'Максимум 100 символов',
+        hint: 'Max 100 characters',
       },
       {
         type: 'input',
         name: 'description',
-        label: 'Подробное описание',
-        placeholder: 'Опишите задачу подробно',
+        label: 'Detailed description',
+        placeholder: 'Describe the task in detail',
         multiline: true,
         required: true,
-        hint: 'Включите все важные детали и требования',
+        hint: 'Include all important details and requirements',
       },
       {
         type: 'divider',
       },
       {
         type: 'header',
-        text: 'Приоритет и сроки',
+        text: 'Priority and deadlines',
       },
       {
         type: 'select',
         name: 'priority',
-        label: 'Приоритет',
+        label: 'Priority',
         options: [
-          { text: '🔥 Критический', value: 'critical' },
-          { text: '⚡ Высокий', value: 'high' },
-          { text: '📋 Обычный', value: 'normal', selected: true },
-          { text: '📌 Низкий', value: 'low' },
+          { text: '🔥 Critical', value: 'critical' },
+          { text: '⚡ High', value: 'high' },
+          { text: '📋 Normal', value: 'normal', selected: true },
+          { text: '📌 Low', value: 'low' },
         ],
         required: true,
       },
       {
         type: 'date',
         name: 'due_date',
-        label: 'Срок выполнения',
-        hint: 'Когда должна быть выполнена задача',
+        label: 'Due date',
+        hint: 'When the task should be completed',
       },
       {
         type: 'divider',
       },
       {
         type: 'header',
-        text: 'Исполнители',
+        text: 'Assignees',
       },
       {
         type: 'input',
         name: 'assignee_emails',
-        label: 'Email исполнителей',
+        label: 'Assignee emails',
         placeholder: 'user1@company.com, user2@company.com',
-        hint: 'Укажите email исполнителей через запятую',
+        hint: 'Comma-separated email addresses',
       },
       {
         type: 'select',
         name: 'team',
-        label: 'Команда',
+        label: 'Team',
         options: [
           { text: 'Frontend', value: 'frontend' },
           { text: 'Backend', value: 'backend' },
@@ -234,127 +234,127 @@ const FORM_TEMPLATES: { [key: string]: any } = {
     ],
   },
   survey_form: {
-    title: 'Опрос сотрудников',
-    close_text: 'Отмена',
-    submit_text: 'Отправить ответы',
+    title: 'Employee survey',
+    close_text: 'Cancel',
+    submit_text: 'Submit answers',
     blocks: [
       {
         type: 'header',
-        text: 'Анкета обратной связи',
+        text: 'Feedback survey',
       },
       {
         type: 'plain_text',
-        text: 'Пожалуйста, честно ответьте на вопросы. Ваши ответы помогут улучшить работу компании.',
+        text: 'Please answer the questions honestly. Your responses will help improve the company.',
       },
       {
         type: 'radio',
         name: 'satisfaction',
-        label: 'Насколько вы довольны работой в компании?',
+        label: 'How satisfied are you with working at the company?',
         options: [
-          { text: 'Очень доволен', value: 'very_satisfied' },
-          { text: 'Доволен', value: 'satisfied' },
-          { text: 'Нейтрально', value: 'neutral' },
-          { text: 'Не доволен', value: 'dissatisfied' },
-          { text: 'Очень не доволен', value: 'very_dissatisfied' },
+          { text: 'Very satisfied', value: 'very_satisfied' },
+          { text: 'Satisfied', value: 'satisfied' },
+          { text: 'Neutral', value: 'neutral' },
+          { text: 'Dissatisfied', value: 'dissatisfied' },
+          { text: 'Very dissatisfied', value: 'very_dissatisfied' },
         ],
         required: true,
       },
       {
         type: 'checkbox',
         name: 'improvements',
-        label: 'Что бы вы хотели улучшить?',
+        label: 'What would you like to see improved?',
         options: [
-          { text: 'Зарплата', value: 'salary' },
-          { text: 'Рабочие условия', value: 'work_conditions' },
-          { text: 'Команда', value: 'team' },
-          { text: 'Проекты', value: 'projects' },
-          { text: 'Обучение', value: 'training' },
-          { text: 'Карьерный рост', value: 'career_growth' },
+          { text: 'Salary', value: 'salary' },
+          { text: 'Work conditions', value: 'work_conditions' },
+          { text: 'Team', value: 'team' },
+          { text: 'Projects', value: 'projects' },
+          { text: 'Training', value: 'training' },
+          { text: 'Career growth', value: 'career_growth' },
         ],
       },
       {
         type: 'input',
         name: 'suggestions',
-        label: 'Ваши предложения',
-        placeholder: 'Поделитесь идеями по улучшению',
+        label: 'Your suggestions',
+        placeholder: 'Share ideas for improvement',
         multiline: true,
       },
     ],
   },
   access_request: {
-    title: 'Запрос доступа',
-    close_text: 'Отмена',
-    submit_text: 'Отправить запрос',
+    title: 'Access request',
+    close_text: 'Cancel',
+    submit_text: 'Submit request',
     blocks: [
       {
         type: 'header',
-        text: 'Запрос доступа к ресурсам',
+        text: 'Resource access request',
       },
       {
         type: 'input',
         name: 'employee_name',
-        label: 'ФИО сотрудника',
-        placeholder: 'Иванов Иван Иванович',
+        label: 'Employee full name',
+        placeholder: 'John Doe',
         required: true,
       },
       {
         type: 'input',
         name: 'department',
-        label: 'Отдел',
-        placeholder: 'IT отдел',
+        label: 'Department',
+        placeholder: 'IT Department',
         required: true,
       },
       {
         type: 'checkbox',
         name: 'access_types',
-        label: 'Тип доступа',
+        label: 'Access type',
         options: [
-          { text: 'Корпоративная почта', value: 'email' },
-          { text: 'Внутренние системы', value: 'internal_systems' },
-          { text: 'База данных', value: 'database' },
-          { text: 'Файловый сервер', value: 'file_server' },
-          { text: 'VPN доступ', value: 'vpn' },
-          { text: 'Административные права', value: 'admin_rights' },
+          { text: 'Corporate email', value: 'email' },
+          { text: 'Internal systems', value: 'internal_systems' },
+          { text: 'Database', value: 'database' },
+          { text: 'File server', value: 'file_server' },
+          { text: 'VPN access', value: 'vpn' },
+          { text: 'Administrative rights', value: 'admin_rights' },
         ],
         required: true,
       },
       {
         type: 'date',
         name: 'access_start',
-        label: 'Дата начала доступа',
+        label: 'Access start date',
         required: true,
       },
       {
         type: 'date',
         name: 'access_end',
-        label: 'Дата окончания доступа',
+        label: 'Access end date',
       },
       {
         type: 'input',
         name: 'justification',
-        label: 'Обоснование',
-        placeholder: 'Объясните необходимость предоставления доступа',
+        label: 'Justification',
+        placeholder: 'Explain why access is needed',
         multiline: true,
         required: true,
       },
       {
         type: 'file_input',
         name: 'approval_doc',
-        label: 'Документ-основание',
+        label: 'Supporting document',
         filetypes: ['pdf', 'doc', 'docx'],
         max_files: 1,
-        hint: 'Загрузите документ, подтверждающий необходимость доступа',
+        hint: 'Upload a document confirming the need for access',
       },
     ],
   },
 };
 
-// Правила валидации для форм
+// Form validation rules
 const FORM_VALIDATION_RULES: { [key: string]: any } = {
   timeoff_request: {
     date_end: (value: string, formData: any) => {
       if (new Date(value) <= new Date(formData.date_start)) {
-        return 'Дата окончания должна быть позже даты начала отпуска';
+        return 'End date must be after start date';
       }
       return null;
     },
@@ -362,7 +362,7 @@ const FORM_VALIDATION_RULES: { [key: string]: any } = {
   feedback_form: {
     comment: (value: string) => {
       if (value && value.length < 10) {
-        return 'Комментарий должен содержать минимум 10 символов';
+        return 'Comment must be at least 10 characters';
       }
       return null;
     },
@@ -370,7 +370,7 @@ const FORM_VALIDATION_RULES: { [key: string]: any } = {
   custom_form: {
     text: (value: string) => {
       if (!value || value.trim().length === 0) {
-        return 'Поле текста не может быть пустым';
+        return 'Text field cannot be empty';
       }
       return null;
     },
@@ -378,13 +378,13 @@ const FORM_VALIDATION_RULES: { [key: string]: any } = {
   task_request: {
     title: (value: string) => {
       if (value && value.length < 5) {
-        return 'Название задачи должно содержать минимум 5 символов';
+        return 'Task title must be at least 5 characters';
       }
       return null;
     },
     description: (value: string) => {
       if (value && value.length < 20) {
-        return 'Описание должно содержать минимум 20 символов';
+        return 'Description must be at least 20 characters';
       }
       return null;
     },
@@ -402,7 +402,7 @@ export class Pachca implements INodeType {
     group: ['transform'],
     version: 1,
     subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
-    description: 'Интеграция с мессенджером Пачка',
+    description: 'Integration with Pachca messenger',
     defaults: {
       name: 'Pachca',
     },
@@ -495,31 +495,31 @@ export class Pachca implements INodeType {
             name: 'Get all users',
             value: 'getAll',
             action: 'Get all users',
-            description: 'Получить список всех пользователей',
+            description: 'Get list of all users',
           },
           {
             name: 'Get a user',
             value: 'getById',
             action: 'Get a user',
-            description: 'Получить пользователя по ID',
+            description: 'Get user by ID',
           },
           {
             name: 'Create a user',
             value: 'create',
             action: 'Create a user',
-            description: 'Создать нового пользователя (только для Admin/Owner токенов)',
+            description: 'Create new user (Admin/Owner tokens only)',
           },
           {
             name: 'Update a user',
             value: 'update',
             action: 'Update a user',
-            description: 'Обновить пользователя (только для Admin/Owner токенов)',
+            description: 'Update user (Admin/Owner tokens only)',
           },
           {
             name: 'Delete a user',
             value: 'delete',
             action: 'Delete a user',
-            description: 'Удалить пользователя (только для Admin/Owner токенов)',
+            description: 'Delete user (Admin/Owner tokens only)',
           },
         ],
         default: 'getAll',
@@ -540,55 +540,55 @@ export class Pachca implements INodeType {
             name: 'Send a message',
             value: 'send',
             action: 'Send a message',
-            description: 'Отправить сообщение',
+            description: 'Send message',
           },
           {
             name: 'Get a message',
             value: 'getById',
             action: 'Get a message',
-            description: 'Получить сообщение по ID',
+            description: 'Get message by ID',
           },
           {
             name: 'Get messages from a chat',
             value: 'getAll',
             action: 'Get messages from a chat',
-            description: 'Получить сообщения чата',
+            description: 'Get chat messages',
           },
           {
             name: 'Update a message',
             value: 'update',
             action: 'Update a message',
-            description: 'Редактировать сообщение',
+            description: 'Edit message',
           },
           {
             name: 'Delete a message',
             value: 'delete',
             action: 'Delete a message',
-            description: 'Удалить сообщение (только для Admin/Owner токенов)',
+            description: 'Delete message (Admin/Owner tokens only)',
           },
           {
             name: 'Pin a message',
             value: 'pin',
             action: 'Pin a message',
-            description: 'Закрепить сообщение',
+            description: 'Pin message',
           },
           {
             name: 'Unpin a message',
             value: 'unpin',
             action: 'Unpin a message',
-            description: 'Открепить сообщение',
+            description: 'Unpin message',
           },
           {
             name: 'Get message readers',
             value: 'getReadMembers',
             action: 'Get message readers',
-            description: 'Получить список прочитавших сообщение',
+            description: 'Get list of message readers',
           },
           {
             name: 'Unfurl message links',
             value: 'unfurl',
             action: 'Unfurl message links',
-            description: 'Создать предпросмотры ссылок в сообщении (unfurl)',
+            description: 'Create link previews in message (unfurl)',
           },
         ],
         default: 'send',
@@ -609,67 +609,67 @@ export class Pachca implements INodeType {
             name: 'Get all chats',
             value: 'getAll',
             action: 'Get all chats',
-            description: 'Получить список всех чатов',
+            description: 'Get list of all chats',
           },
           {
             name: 'Get a chat',
             value: 'getById',
             action: 'Get a chat',
-            description: 'Получить чат по ID',
+            description: 'Get chat by ID',
           },
           {
             name: 'Create a chat',
             value: 'create',
             action: 'Create a chat',
-            description: 'Создать новый чат',
+            description: 'Create new chat',
           },
           {
             name: 'Update a chat',
             value: 'update',
             action: 'Update a chat',
-            description: 'Обновить чат',
+            description: 'Update chat',
           },
           {
             name: 'Archive a chat',
             value: 'archive',
             action: 'Archive a chat',
-            description: 'Архивировать чат',
+            description: 'Archive chat',
           },
           {
             name: 'Unarchive a chat',
             value: 'unarchive',
             action: 'Unarchive a chat',
-            description: 'Разархивировать чат',
+            description: 'Unarchive chat',
           },
           {
             name: 'Get chat members',
             value: 'getMembers',
             action: 'Get chat members',
-            description: 'Получить список участников чата',
+            description: 'Get chat members list',
           },
           {
             name: 'Add users to chat',
             value: 'addUsers',
             action: 'Add users to chat',
-            description: 'Добавить пользователей в чат',
+            description: 'Add users to chat',
           },
           {
             name: 'Remove user from chat',
             value: 'removeUser',
             action: 'Remove user from chat',
-            description: 'Исключить пользователя из чата',
+            description: 'Remove user from chat',
           },
           {
             name: 'Update user role in chat',
             value: 'updateRole',
             action: 'Update user role in chat',
-            description: 'Изменить роль пользователя в чате',
+            description: 'Change user role in chat',
           },
           {
             name: 'Leave a chat',
             value: 'leaveChat',
             action: 'Leave a chat',
-            description: 'Выйти из чата',
+            description: 'Leave chat',
           },
         ],
         default: 'getAll',
@@ -690,49 +690,49 @@ export class Pachca implements INodeType {
             name: 'Get all group tags',
             value: 'getAll',
             action: 'Get all group tags',
-            description: 'Получить список всех групповых тегов',
+            description: 'Get list of all group tags',
           },
           {
             name: 'Get a group tag',
             value: 'getById',
             action: 'Get a group tag',
-            description: 'Получить групповой тег по ID',
+            description: 'Get group tag by ID',
           },
           {
             name: 'Create a group tag',
             value: 'create',
             action: 'Create a group tag',
-            description: 'Создать новый групповой тег',
+            description: 'Create new group tag',
           },
           {
             name: 'Update a group tag',
             value: 'update',
             action: 'Update a group tag',
-            description: 'Обновить групповой тег',
+            description: 'Update group tag',
           },
           {
             name: 'Delete a group tag',
             value: 'delete',
             action: 'Delete a group tag',
-            description: 'Удалить групповой тег',
+            description: 'Delete group tag',
           },
           {
             name: 'Get users in group tag',
             value: 'getUsers',
             action: 'Get users in group tag',
-            description: 'Получить пользователей в групповом теге',
+            description: 'Get users in group tag',
           },
           {
             name: 'Add tags to chat',
             value: 'addTags',
             action: 'Add tags to chat',
-            description: 'Добавить теги в чат',
+            description: 'Add tags to chat',
           },
           {
             name: 'Remove tag from chat',
             value: 'removeTag',
             action: 'Remove tag from chat',
-            description: 'Исключить тег из чата',
+            description: 'Remove tag from chat',
           },
         ],
         default: 'getAll',
@@ -753,7 +753,7 @@ export class Pachca implements INodeType {
             name: 'Upload a file',
             value: 'upload',
             action: 'Upload a file',
-            description: 'Загрузить файл (полный флоу: получение параметров + загрузка)',
+            description: 'Upload file (full flow: get params + upload)',
           },
         ],
         default: 'upload',
@@ -774,7 +774,7 @@ export class Pachca implements INodeType {
             name: 'Get custom properties',
             value: 'getCustomProperties',
             action: 'Get custom properties',
-            description: 'Получить список дополнительных полей для сущности',
+            description: 'Get list of custom fields for entity',
           },
         ],
         default: 'getCustomProperties',
@@ -795,7 +795,7 @@ export class Pachca implements INodeType {
             name: 'Create a task',
             value: 'create',
             action: 'Create a task',
-            description: 'Создать новое напоминание',
+            description: 'Create new reminder',
           },
         ],
         default: 'create',
@@ -816,7 +816,7 @@ export class Pachca implements INodeType {
             name: 'Update a bot',
             value: 'update',
             action: 'Update a bot',
-            description: 'Редактировать настройки бота',
+            description: 'Edit bot settings',
           },
         ],
         default: 'update',
@@ -837,25 +837,25 @@ export class Pachca implements INodeType {
             name: 'Get my profile',
             value: 'getProfile',
             action: 'Get my profile',
-            description: 'Получить информацию о своем профиле',
+            description: 'Get own profile info',
           },
           {
             name: 'Get my status',
             value: 'getStatus',
             action: 'Get my status',
-            description: 'Получить информацию о своем статусе',
+            description: 'Get own status info',
           },
           {
             name: 'Set my status',
             value: 'updateStatus',
             action: 'Set my status',
-            description: 'Установить новый статус',
+            description: 'Set new status',
           },
           {
             name: 'Clear my status',
             value: 'deleteStatus',
             action: 'Clear my status',
-            description: 'Удалить свой статус',
+            description: 'Delete own status',
           },
         ],
         default: 'getProfile',
@@ -876,19 +876,19 @@ export class Pachca implements INodeType {
             name: 'Add a reaction',
             value: 'addReaction',
             action: 'Add a reaction',
-            description: 'Добавить реакцию на сообщение',
+            description: 'Add reaction to message',
           },
           {
             name: 'Remove a reaction',
             value: 'deleteReaction',
             action: 'Remove a reaction',
-            description: 'Удалить реакцию с сообщения',
+            description: 'Remove reaction from message',
           },
           {
             name: 'Get message reactions',
             value: 'getReactions',
             action: 'Get message reactions',
-            description: 'Получить список реакций на сообщение',
+            description: 'Get list of reactions on message',
           },
         ],
         default: 'addReaction',
@@ -909,13 +909,13 @@ export class Pachca implements INodeType {
             name: 'Create a thread',
             value: 'createThread',
             action: 'Create a thread',
-            description: 'Создать тред к сообщению',
+            description: 'Create thread to message',
           },
           {
             name: 'Get a thread',
             value: 'getThread',
             action: 'Get a thread',
-            description: 'Получить информацию о треде',
+            description: 'Get thread info',
           },
         ],
         default: 'createThread',
@@ -936,19 +936,19 @@ export class Pachca implements INodeType {
             name: 'Create a form',
             value: 'createView',
             action: 'Create a form',
-            description: 'Создать и открыть модальное окно с формой',
+            description: 'Create and open modal with form',
           },
           {
             name: 'Process form submission',
             value: 'processSubmission',
             action: 'Process form submission',
-            description: 'Обработать отправку формы и отправить ответ',
+            description: 'Handle form submit and send response',
           },
           {
             name: 'Get form templates',
             value: 'getTemplates',
             action: 'Get form templates',
-            description: 'Получить список доступных шаблонов форм',
+            description: 'Get list of available form templates',
           },
         ],
         default: 'createView',
@@ -962,17 +962,17 @@ export class Pachca implements INodeType {
           {
             name: 'Discussion',
             value: 'discussion',
-            description: 'Беседа или канал',
+            description: 'Chat or channel',
           },
           {
             name: 'User',
             value: 'user',
-            description: 'Личное сообщение пользователю',
+            description: 'Direct message to user',
           },
           {
             name: 'Thread',
             value: 'thread',
-            description: 'Комментарий в треде',
+            description: 'Thread comment',
           },
         ],
         default: 'discussion',
@@ -982,7 +982,7 @@ export class Pachca implements INodeType {
             operation: ['send'],
           },
         },
-        description: 'Тип сущности для отправки сообщения',
+        description: 'Entity type for sending message',
       },
       {
         displayName: 'Entity ID',
@@ -995,7 +995,7 @@ export class Pachca implements INodeType {
             operation: ['send'],
           },
         },
-        description: 'ID чата, пользователя или треда',
+        description: 'Chat, user or thread ID',
       },
       {
         displayName: 'Content',
@@ -1011,7 +1011,7 @@ export class Pachca implements INodeType {
             operation: ['send', 'update'],
           },
         },
-        description: 'Текст сообщения',
+        description: 'Message text',
       },
       {
         displayName: 'Files',
@@ -1037,7 +1037,7 @@ export class Pachca implements INodeType {
                 name: 'key',
                 type: 'string',
                 default: '',
-                description: 'Путь к файлу, полученный в результате загрузки файла',
+                description: 'File path/key from file upload result',
                 required: true,
               },
               {
@@ -1045,7 +1045,7 @@ export class Pachca implements INodeType {
                 name: 'name',
                 type: 'string',
                 default: '',
-                description: 'Название файла, которое будет отображаться пользователю',
+                description: 'File name shown to user',
                 required: true,
               },
               {
@@ -1063,7 +1063,7 @@ export class Pachca implements INodeType {
                   },
                 ],
                 default: 'file',
-                description: 'Тип файла',
+                description: 'File type',
                 required: true,
               },
               {
@@ -1071,7 +1071,7 @@ export class Pachca implements INodeType {
                 name: 'size',
                 type: 'number',
                 default: 0,
-                description: 'Размер файла в байтах',
+                description: 'File size in bytes',
                 required: true,
               },
               {
@@ -1084,7 +1084,7 @@ export class Pachca implements INodeType {
                     fileType: ['image'],
                   },
                 },
-                description: 'Ширина изображения в пикселях (только для изображений)',
+                description: 'Image width in pixels (images only)',
               },
               {
                 displayName: 'Height (px)',
@@ -1096,12 +1096,12 @@ export class Pachca implements INodeType {
                     fileType: ['image'],
                   },
                 },
-                description: 'Высота изображения в пикселях (только для изображений)',
+                description: 'Image height in pixels (images only)',
               },
             ],
           },
         ],
-        description: 'Прикрепляемые файлы',
+        description: 'Attached files',
       },
       {
         displayName: 'Button Layout',
@@ -1109,17 +1109,17 @@ export class Pachca implements INodeType {
         type: 'options',
         options: [
           {
-            name: 'Single Row (все кнопки в одну строку)',
+            name: 'Single Row (all buttons in one row)',
             value: 'single_row',
           },
           {
-            name: 'Multiple Rows (каждая кнопка в отдельную строку)',
+            name: 'Multiple Rows (each button on its own row)',
             value: 'multiple_rows',
           },
           {
             name: 'Raw JSON',
             value: 'raw_json',
-            description: 'Ввести JSON для кнопок напрямую',
+            description: 'Enter button JSON directly',
           },
         ],
         default: 'single_row',
@@ -1129,7 +1129,7 @@ export class Pachca implements INodeType {
             operation: ['send', 'update'],
           },
         },
-        description: 'Способ расположения кнопок',
+        description: 'Button layout style',
       },
       {
         displayName: 'Buttons',
@@ -1156,7 +1156,7 @@ export class Pachca implements INodeType {
                 name: 'text',
                 type: 'string',
                 default: '',
-                description: 'Текст кнопки',
+                description: 'Button text',
               },
               {
                 displayName: 'Button Type',
@@ -1184,7 +1184,7 @@ export class Pachca implements INodeType {
                     type: ['data'],
                   },
                 },
-                description: 'Значение для Data-кнопки (будет отправлено в вебхуке)',
+                description: 'Value for Data button (sent in webhook)',
               },
               {
                 displayName: 'URL',
@@ -1196,19 +1196,19 @@ export class Pachca implements INodeType {
                     type: ['url'],
                   },
                 },
-                description: 'URL для перехода',
+                description: 'URL to open',
               },
             ],
           },
         ],
-        description: 'Кнопки для сообщения (Data-кнопки для форм, URL-кнопки для ссылок)',
+        description: 'Message buttons (Data buttons for forms, URL buttons for links)',
       },
       {
         displayName: 'Raw JSON Buttons',
         name: 'rawJsonButtons',
         type: 'json',
         default:
-          '[\n  [\n    {"text": "👍 Согласиться", "data": "vote_yes"},\n    {"text": "❌ Отказаться", "data": "vote_no"}\n  ],\n  [\n    {"text": "🕒 Перенести на неделю", "data": "pause_week"}\n  ],\n  [\n    {"text": "Все мои проекты", "url": "https://projects.com/list"}\n  ]\n]',
+          '[\n  [\n    {"text": "👍 Agree", "data": "vote_yes"},\n    {"text": "❌ Decline", "data": "vote_no"}\n  ],\n  [\n    {"text": "🕒 Postpone by a week", "data": "pause_week"}\n  ],\n  [\n    {"text": "My projects", "url": "https://projects.com/list"}\n  ]\n]',
         displayOptions: {
           show: {
             resource: ['message'],
@@ -1217,7 +1217,7 @@ export class Pachca implements INodeType {
           },
         },
         description:
-          'Raw JSON для кнопок в формате API: массив массивов (каждая строка - массив кнопок). Можно вставить как массив кнопок [{...}, {...}] или массив строк [[{...}, {...}], [{...}]]. Пример в поле выше.',
+          'Raw JSON for buttons in API format: array of arrays (each row is an array of buttons). Use button array [{...}, {...}] or rows [[{...}, {...}], [{...}]]. See example above.',
       },
       {
         displayName: 'Message ID',
@@ -1230,7 +1230,7 @@ export class Pachca implements INodeType {
             operation: ['getById', 'update', 'delete', 'pin', 'unpin', 'getReadMembers'],
           },
         },
-        description: 'ID сообщения',
+        description: 'Message ID',
       },
       {
         displayName: 'Chat ID',
@@ -1243,7 +1243,7 @@ export class Pachca implements INodeType {
             operation: ['getAll'],
           },
         },
-        description: 'ID чата для получения сообщений',
+        description: 'Chat ID to get messages from',
       },
       {
         displayName: 'Get All Users (No Limit)',
@@ -1256,7 +1256,7 @@ export class Pachca implements INodeType {
             operation: ['getAll'],
           },
         },
-        description: 'Получить всех пользователей с полной пагинацией (игнорирует per/page)',
+        description: 'Get all users with full pagination (ignores per/page)',
       },
       {
         displayName: 'Per Page',
@@ -1270,7 +1270,7 @@ export class Pachca implements INodeType {
             getAllUsersNoLimit: [false],
           },
         },
-        description: 'Количество элементов на странице (максимум 50)',
+        description: 'Items per page (max 50)',
       },
       {
         displayName: 'Page',
@@ -1284,7 +1284,7 @@ export class Pachca implements INodeType {
             getAllUsersNoLimit: [false],
           },
         },
-        description: 'Номер страницы',
+        description: 'Page number',
       },
       // User parameters
       {
@@ -1298,7 +1298,7 @@ export class Pachca implements INodeType {
           },
         },
         default: 1,
-        description: 'ID пользователя',
+        description: 'User ID',
       },
       {
         displayName: 'Email',
@@ -1311,7 +1311,7 @@ export class Pachca implements INodeType {
           },
         },
         default: '',
-        description: 'Email пользователя',
+        description: 'User email',
       },
       {
         displayName: 'First Name',
@@ -1324,7 +1324,7 @@ export class Pachca implements INodeType {
           },
         },
         default: '',
-        description: 'Имя пользователя',
+        description: 'User first name',
       },
       {
         displayName: 'Last Name',
@@ -1337,7 +1337,7 @@ export class Pachca implements INodeType {
           },
         },
         default: '',
-        description: 'Фамилия пользователя',
+        description: 'User last name',
       },
       {
         displayName: 'Query',
@@ -1351,7 +1351,7 @@ export class Pachca implements INodeType {
           },
         },
         default: '',
-        description: 'Поисковая фраза для фильтрации пользователей',
+        description: 'Search phrase to filter users',
       },
       {
         displayName: 'Filter Role',
@@ -1379,7 +1379,7 @@ export class Pachca implements INodeType {
             getAllUsersNoLimit: [true],
           },
         },
-        description: 'Фильтр по ролям пользователей (если не выбрано - все роли)',
+        description: 'Filter by user roles (if not set - all roles)',
       },
       {
         displayName: 'Filter Bot',
@@ -1407,7 +1407,7 @@ export class Pachca implements INodeType {
             getAllUsersNoLimit: [true],
           },
         },
-        description: 'Фильтр по типу: пользователи или боты',
+        description: 'Filter by type: users or bots',
       },
       {
         displayName: 'Filter Suspended',
@@ -1435,7 +1435,7 @@ export class Pachca implements INodeType {
             getAllUsersNoLimit: [true],
           },
         },
-        description: 'Фильтр по статусу блокировки',
+        description: 'Filter by block status',
       },
       {
         displayName: 'Filter Invite Status',
@@ -1459,7 +1459,7 @@ export class Pachca implements INodeType {
             getAllUsersNoLimit: [true],
           },
         },
-        description: 'Фильтр по статусу приглашения (если не выбрано - все статусы)',
+        description: 'Filter by invitation status (if not set - all statuses)',
       },
       {
         displayName: 'Nickname',
@@ -1472,7 +1472,7 @@ export class Pachca implements INodeType {
           },
         },
         default: '',
-        description: 'Имя пользователя (nickname)',
+        description: 'User nickname',
       },
       {
         displayName: 'Phone Number',
@@ -1485,7 +1485,7 @@ export class Pachca implements INodeType {
           },
         },
         default: '',
-        description: 'Номер телефона',
+        description: 'Phone number',
       },
       {
         displayName: 'Department',
@@ -1498,7 +1498,7 @@ export class Pachca implements INodeType {
           },
         },
         default: '',
-        description: 'Департамент',
+        description: 'Department',
       },
       {
         displayName: 'Title',
@@ -1511,7 +1511,7 @@ export class Pachca implements INodeType {
           },
         },
         default: '',
-        description: 'Должность',
+        description: 'Job title',
       },
       {
         displayName: 'Role',
@@ -1521,17 +1521,17 @@ export class Pachca implements INodeType {
           {
             name: 'Admin',
             value: 'admin',
-            description: 'Администратор',
+            description: 'Administrator',
           },
           {
             name: 'User',
             value: 'user',
-            description: 'Сотрудник',
+            description: 'Employee',
           },
           {
             name: 'Multi Guest',
             value: 'multi_guest',
-            description: 'Мульти-гость',
+            description: 'Multi-guest',
           },
         ],
         default: 'user',
@@ -1541,7 +1541,7 @@ export class Pachca implements INodeType {
             operation: ['create', 'update'],
           },
         },
-        description: 'Уровень доступа',
+        description: 'Access level',
       },
       {
         displayName: 'Suspended',
@@ -1554,7 +1554,7 @@ export class Pachca implements INodeType {
             operation: ['update'],
           },
         },
-        description: 'Деактивация пользователя',
+        description: 'User deactivation',
       },
       {
         displayName: 'List Tags',
@@ -1567,7 +1567,7 @@ export class Pachca implements INodeType {
             operation: ['create', 'update'],
           },
         },
-        description: 'Теги пользователя (через запятую)',
+        description: 'User tags (comma-separated)',
       },
       {
         displayName: 'Custom Properties',
@@ -1593,19 +1593,19 @@ export class Pachca implements INodeType {
                 name: 'id',
                 type: 'number',
                 default: 0,
-                description: 'Идентификатор дополнительного поля',
+                description: 'Custom field identifier',
               },
               {
                 displayName: 'Value',
                 name: 'value',
                 type: 'string',
                 default: '',
-                description: 'Значение поля',
+                description: 'Field value',
               },
             ],
           },
         ],
-        description: 'Дополнительные поля пользователя',
+        description: 'User custom fields',
       },
       // Chat parameters
       {
@@ -1629,7 +1629,7 @@ export class Pachca implements INodeType {
           },
         },
         default: 1,
-        description: 'ID чата',
+        description: 'Chat ID',
       },
       {
         displayName: 'Chat Name',
@@ -1642,7 +1642,7 @@ export class Pachca implements INodeType {
           },
         },
         default: '',
-        description: 'Название чата',
+        description: 'Chat name',
       },
       {
         displayName: 'Channel',
@@ -1655,7 +1655,7 @@ export class Pachca implements INodeType {
             operation: ['create'],
           },
         },
-        description: 'Создать канал (true) или беседу (false)',
+        description: 'Create channel (true) or chat (false)',
       },
       {
         displayName: 'Public',
@@ -1668,7 +1668,7 @@ export class Pachca implements INodeType {
             operation: ['create'],
           },
         },
-        description: 'Открытый (true) или закрытый (false) доступ',
+        description: 'Open (true) or closed (false) access',
       },
       {
         displayName: 'Per Page',
@@ -1681,7 +1681,7 @@ export class Pachca implements INodeType {
             operation: ['getAll'],
           },
         },
-        description: 'Количество элементов на странице (максимум 50)',
+        description: 'Items per page (max 50)',
       },
       {
         displayName: 'Page',
@@ -1694,7 +1694,7 @@ export class Pachca implements INodeType {
             operation: ['getAll'],
           },
         },
-        description: 'Номер страницы',
+        description: 'Page number',
       },
       // Chat Members parameters
       {
@@ -1705,27 +1705,27 @@ export class Pachca implements INodeType {
           {
             name: 'All',
             value: 'all',
-            description: 'Любая роль',
+            description: 'Any role',
           },
           {
             name: 'Owner',
             value: 'owner',
-            description: 'Создатель',
+            description: 'Creator',
           },
           {
             name: 'Admin',
             value: 'admin',
-            description: 'Администратор',
+            description: 'Administrator',
           },
           {
             name: 'Editor',
             value: 'editor',
-            description: 'Редактор',
+            description: 'Editor',
           },
           {
             name: 'Member',
             value: 'member',
-            description: 'Участник/подписчик',
+            description: 'Member/Subscriber',
           },
         ],
         default: 'all',
@@ -1735,7 +1735,7 @@ export class Pachca implements INodeType {
             operation: ['getMembers'],
           },
         },
-        description: 'Роль в чате для фильтрации',
+        description: 'Chat role filter',
       },
       {
         displayName: 'Limit',
@@ -1748,7 +1748,7 @@ export class Pachca implements INodeType {
             operation: ['getMembers'],
           },
         },
-        description: 'Количество возвращаемых участников (максимум 50)',
+        description: 'Number of members to return (max 50)',
       },
       {
         displayName: 'Cursor',
@@ -1761,7 +1761,7 @@ export class Pachca implements INodeType {
             operation: ['getMembers'],
           },
         },
-        description: 'Курсор для пагинации (из meta.paginate.next_page)',
+        description: 'Pagination cursor (from meta.paginate.next_page)',
       },
       {
         displayName: 'Member IDs',
@@ -1774,7 +1774,7 @@ export class Pachca implements INodeType {
             operation: ['addUsers'],
           },
         },
-        description: 'Массив ID пользователей через запятую (например: 186,187)',
+        description: 'Comma-separated user IDs (e.g. 186,187)',
       },
       {
         displayName: 'Silent',
@@ -1787,7 +1787,7 @@ export class Pachca implements INodeType {
             operation: ['addUsers'],
           },
         },
-        description: 'Не создавать системное сообщение о добавлении участника',
+        description: 'Do not create system message about adding member',
       },
       {
         displayName: 'User ID',
@@ -1800,7 +1800,7 @@ export class Pachca implements INodeType {
             operation: ['removeUser', 'updateRole'],
           },
         },
-        description: 'ID пользователя',
+        description: 'User ID',
       },
       {
         displayName: 'New Role',
@@ -1810,17 +1810,17 @@ export class Pachca implements INodeType {
           {
             name: 'Admin',
             value: 'admin',
-            description: 'Администратор',
+            description: 'Administrator',
           },
           {
             name: 'Editor',
             value: 'editor',
-            description: 'Редактор (только для каналов)',
+            description: 'Editor (channels only)',
           },
           {
             name: 'Member',
             value: 'member',
-            description: 'Участник/подписчик',
+            description: 'Member/Subscriber',
           },
         ],
         default: 'member',
@@ -1830,7 +1830,7 @@ export class Pachca implements INodeType {
             operation: ['updateRole'],
           },
         },
-        description: 'Новая роль пользователя',
+        description: 'New user role',
       },
       // Group Tag parameters
       {
@@ -1844,7 +1844,7 @@ export class Pachca implements INodeType {
           },
         },
         default: 1,
-        description: 'ID группового тега',
+        description: 'Group tag ID',
       },
       {
         displayName: 'Group Tag Name',
@@ -1857,7 +1857,7 @@ export class Pachca implements INodeType {
           },
         },
         default: '',
-        description: 'Название группового тега',
+        description: 'Group tag name',
       },
       {
         displayName: 'Group Tag Color',
@@ -1870,7 +1870,7 @@ export class Pachca implements INodeType {
           },
         },
         default: '#000000',
-        description: 'Цвет группового тега (hex код)',
+        description: 'Group tag color (hex code)',
       },
       {
         displayName: 'Chat ID',
@@ -1883,7 +1883,7 @@ export class Pachca implements INodeType {
             operation: ['addTags', 'removeTag'],
           },
         },
-        description: 'ID чата для работы с тегами',
+        description: 'Chat ID for tag operations',
       },
       {
         displayName: 'Group Tag IDs',
@@ -1896,7 +1896,7 @@ export class Pachca implements INodeType {
             operation: ['addTags'],
           },
         },
-        description: 'Массив ID тегов через запятую (например: 86,18)',
+        description: 'Comma-separated tag IDs (e.g. 86,18)',
       },
       {
         displayName: 'Tag ID',
@@ -1909,7 +1909,7 @@ export class Pachca implements INodeType {
             operation: ['removeTag'],
           },
         },
-        description: 'ID тега для исключения',
+        description: 'Tag ID to remove',
       },
       // File parameters
       {
@@ -1920,12 +1920,12 @@ export class Pachca implements INodeType {
           {
             name: 'URL',
             value: 'url',
-            description: 'Скачать файл по URL',
+            description: 'Download file from URL',
           },
           {
             name: 'Binary Data',
             value: 'binary',
-            description: 'Использовать бинарные данные из предыдущего узла',
+            description: 'Use binary data from previous node',
           },
         ],
         default: 'url',
@@ -1935,7 +1935,7 @@ export class Pachca implements INodeType {
             operation: ['upload'],
           },
         },
-        description: 'Источник файла для загрузки',
+        description: 'File source for upload',
       },
       {
         displayName: 'File URL',
@@ -1949,7 +1949,7 @@ export class Pachca implements INodeType {
           },
         },
         default: '',
-        description: 'URL файла для скачивания и загрузки в Pachca',
+        description: 'File URL to download and upload to Pachca',
       },
       {
         displayName: 'Binary Property',
@@ -1963,7 +1963,7 @@ export class Pachca implements INodeType {
           },
         },
         default: 'data',
-        description: 'Имя свойства с бинарными данными из предыдущего узла',
+        description: 'Binary property name from previous node',
       },
       {
         displayName: 'File Name',
@@ -1976,7 +1976,7 @@ export class Pachca implements INodeType {
           },
         },
         default: '',
-        description: 'Имя файла (если не указано, будет взято из URL или бинарных данных)',
+        description: 'File name (if not set, taken from URL or binary data)',
       },
       {
         displayName: 'Content Type',
@@ -1989,7 +1989,7 @@ export class Pachca implements INodeType {
           },
         },
         default: 'application/octet-stream',
-        description: 'MIME тип файла (если не указан, будет определен автоматически)',
+        description: 'File MIME type (auto-detected if not set)',
       },
       // Field parameters
       {
@@ -2000,12 +2000,12 @@ export class Pachca implements INodeType {
           {
             name: 'User',
             value: 'User',
-            description: 'Участник',
+            description: 'Member',
           },
           {
             name: 'Task',
             value: 'Task',
-            description: 'Напоминание',
+            description: 'Reminder',
           },
         ],
         default: 'User',
@@ -2015,7 +2015,7 @@ export class Pachca implements INodeType {
             operation: ['getCustomProperties'],
           },
         },
-        description: 'Тип сущности для получения дополнительных полей',
+        description: 'Entity type for custom fields',
       },
       // Task parameters
       {
@@ -2026,27 +2026,27 @@ export class Pachca implements INodeType {
           {
             name: 'Call',
             value: 'call',
-            description: 'Позвонить контакту',
+            description: 'Call contact',
           },
           {
             name: 'Meeting',
             value: 'meeting',
-            description: 'Встреча',
+            description: 'Meeting',
           },
           {
             name: 'Reminder',
             value: 'reminder',
-            description: 'Простое напоминание',
+            description: 'Simple reminder',
           },
           {
             name: 'Event',
             value: 'event',
-            description: 'Событие',
+            description: 'Event',
           },
           {
             name: 'Email',
             value: 'email',
-            description: 'Написать письмо',
+            description: 'Send email',
           },
         ],
         default: 'reminder',
@@ -2056,7 +2056,7 @@ export class Pachca implements INodeType {
             operation: ['create'],
           },
         },
-        description: 'Тип напоминания',
+        description: 'Reminder type',
       },
       {
         displayName: 'Content',
@@ -2072,7 +2072,7 @@ export class Pachca implements INodeType {
             operation: ['create'],
           },
         },
-        description: 'Описание напоминания (если не указано, будет использовано название типа)',
+        description: 'Reminder description (uses type name if not set)',
       },
       {
         displayName: 'Due At',
@@ -2085,7 +2085,7 @@ export class Pachca implements INodeType {
             operation: ['create'],
           },
         },
-        description: 'Срок выполнения напоминания (ISO-8601 формат)',
+        description: 'Reminder due date (ISO-8601 format)',
       },
       {
         displayName: 'Priority',
@@ -2095,17 +2095,17 @@ export class Pachca implements INodeType {
           {
             name: 'Normal',
             value: 1,
-            description: 'Обычный приоритет',
+            description: 'Normal priority',
           },
           {
             name: 'Important',
             value: 2,
-            description: 'Важно',
+            description: 'Important',
           },
           {
             name: 'Very Important',
             value: 3,
-            description: 'Очень важно',
+            description: 'Very important',
           },
         ],
         default: 1,
@@ -2115,7 +2115,7 @@ export class Pachca implements INodeType {
             operation: ['create'],
           },
         },
-        description: 'Приоритет напоминания',
+        description: 'Reminder priority',
       },
       {
         displayName: 'Performer IDs',
@@ -2129,7 +2129,7 @@ export class Pachca implements INodeType {
           },
         },
         description:
-          'ID ответственных пользователей через запятую (если не указано, ответственным назначаетесь вы)',
+          'Comma-separated responsible user IDs (if empty, you are set as responsible)',
       },
       {
         displayName: 'Custom Properties',
@@ -2155,19 +2155,19 @@ export class Pachca implements INodeType {
                 name: 'id',
                 type: 'number',
                 default: 0,
-                description: 'ID дополнительного поля',
+                description: 'Custom field ID',
               },
               {
                 displayName: 'Value',
                 name: 'value',
                 type: 'string',
                 default: '',
-                description: 'Значение поля',
+                description: 'Field value',
               },
             ],
           },
         ],
-        description: 'Дополнительные поля напоминания',
+        description: 'Reminder custom fields',
       },
       // Bot parameters
       {
@@ -2181,7 +2181,7 @@ export class Pachca implements INodeType {
             operation: ['update'],
           },
         },
-        description: 'ID бота для редактирования',
+        description: 'Bot ID to edit',
       },
       {
         displayName: 'Webhook URL',
@@ -2194,7 +2194,7 @@ export class Pachca implements INodeType {
             operation: ['update'],
           },
         },
-        description: 'URL исходящего вебхука',
+        description: 'Outgoing webhook URL',
       },
       {
         displayName: 'Per Page',
@@ -2207,7 +2207,7 @@ export class Pachca implements INodeType {
             operation: ['getReadMembers'],
           },
         },
-        description: 'Количество возвращаемых пользователей (максимум 300)',
+        description: 'Number of users to return (max 300)',
       },
       {
         displayName: 'Page',
@@ -2220,7 +2220,7 @@ export class Pachca implements INodeType {
             operation: ['getReadMembers'],
           },
         },
-        description: 'Страница выборки прочитавших',
+        description: 'Page of readers to fetch',
       },
       // Link Preview parameters
       {
@@ -2234,7 +2234,7 @@ export class Pachca implements INodeType {
             operation: ['unfurl'],
           },
         },
-        description: 'ID сообщения для создания предпросмотров ссылок (unfurl)',
+        description: 'Message ID for creating link previews (unfurl)',
       },
       {
         displayName: 'Link Previews',
@@ -2260,7 +2260,7 @@ export class Pachca implements INodeType {
                 name: 'url',
                 type: 'string',
                 default: '',
-                description: 'URL ссылки для создания предпросмотра (unfurl)',
+                description: 'Link URL for preview (unfurl)',
                 required: true,
               },
               {
@@ -2268,7 +2268,7 @@ export class Pachca implements INodeType {
                 name: 'title',
                 type: 'string',
                 default: '',
-                description: 'Заголовок предпросмотра ссылки',
+                description: 'Link preview title',
                 required: true,
               },
               {
@@ -2276,7 +2276,7 @@ export class Pachca implements INodeType {
                 name: 'description',
                 type: 'string',
                 default: '',
-                description: 'Описание предпросмотра ссылки',
+                description: 'Link preview description',
                 required: true,
               },
               {
@@ -2285,20 +2285,20 @@ export class Pachca implements INodeType {
                 type: 'string',
                 default: '',
                 description:
-                  'Публичная ссылка на изображение (если не указан файл, то используется эта ссылка)',
+                  'Public image URL (used when no file is provided)',
               },
               {
                 displayName: 'Binary Property',
                 name: 'image',
                 type: 'string',
                 default: '',
-                description: 'Бинарное свойство с изображением (имеет приоритет над Image URL)',
+                description: 'Binary property with image (overrides Image URL)',
               },
             ],
           },
         ],
         description:
-          'Предпросмотры ссылок для создания (unfurl). Каждый URL должен быть из сообщения, для которого создается предпросмотр.',
+          'Link previews to create (unfurl). Each URL must be from the message the preview is created for.',
       },
       // Profile parameters
       {
@@ -2312,7 +2312,7 @@ export class Pachca implements INodeType {
             operation: ['updateStatus'],
           },
         },
-        description: 'Emoji символ статуса',
+        description: 'Status emoji',
       },
       {
         displayName: 'Status Title',
@@ -2325,7 +2325,7 @@ export class Pachca implements INodeType {
             operation: ['updateStatus'],
           },
         },
-        description: 'Текст статуса',
+        description: 'Status text',
       },
       {
         displayName: 'Status Expires At',
@@ -2338,7 +2338,7 @@ export class Pachca implements INodeType {
             operation: ['updateStatus'],
           },
         },
-        description: 'Срок жизни статуса (опционально)',
+        description: 'Status TTL (optional)',
       },
       // Reactions parameters
       {
@@ -2352,7 +2352,7 @@ export class Pachca implements INodeType {
             operation: ['addReaction', 'deleteReaction', 'getReactions'],
           },
         },
-        description: 'ID сообщения',
+        description: 'Message ID',
       },
       {
         displayName: 'Reaction Code',
@@ -2365,7 +2365,7 @@ export class Pachca implements INodeType {
             operation: ['addReaction', 'deleteReaction'],
           },
         },
-        description: 'Emoji символ реакции (например: 👍, 🔥, ⭐)',
+        description: 'Reaction emoji (e.g. 👍, 🔥, ⭐)',
       },
       {
         displayName: 'Per Page',
@@ -2378,7 +2378,7 @@ export class Pachca implements INodeType {
             operation: ['getReactions'],
           },
         },
-        description: 'Количество возвращаемых реакций (максимум 50)',
+        description: 'Number of reactions to return (max 50)',
       },
       {
         displayName: 'Page',
@@ -2391,7 +2391,7 @@ export class Pachca implements INodeType {
             operation: ['getReactions'],
           },
         },
-        description: 'Страница выборки реакций',
+        description: 'Reactions page to fetch',
       },
       // Thread parameters
       {
@@ -2405,7 +2405,7 @@ export class Pachca implements INodeType {
             operation: ['createThread'],
           },
         },
-        description: 'ID сообщения для создания треда',
+        description: 'Message ID for creating thread',
       },
       {
         displayName: 'Thread ID',
@@ -2418,7 +2418,7 @@ export class Pachca implements INodeType {
             operation: ['getThread'],
           },
         },
-        description: 'ID треда для получения информации',
+        description: 'Thread ID to get info for',
       },
       // Form parameters
       {
@@ -2429,17 +2429,17 @@ export class Pachca implements INodeType {
           {
             name: '📋 Use Template',
             value: 'template',
-            description: 'Использовать готовый шаблон',
+            description: 'Use preset template',
           },
           {
             name: '🎨 Visual Builder',
             value: 'builder',
-            description: 'Визуальный конструктор форм',
+            description: 'Visual form builder',
           },
           {
             name: '🔧 Raw JSON',
             value: 'json',
-            description: 'Редактировать JSON напрямую',
+            description: 'Edit JSON directly',
           },
         ],
         default: 'template',
@@ -2449,7 +2449,7 @@ export class Pachca implements INodeType {
             operation: ['createView'],
           },
         },
-        description: 'Выберите способ создания формы',
+        description: 'Form creation method',
       },
       {
         displayName: 'Form Template',
@@ -2459,27 +2459,27 @@ export class Pachca implements INodeType {
           {
             name: '📋 Timeoff Request',
             value: 'timeoff_request',
-            description: 'Форма заявки на отпуск',
+            description: 'Time-off request form',
           },
           {
             name: '💬 Feedback Form',
             value: 'feedback_form',
-            description: 'Форма обратной связи',
+            description: 'Feedback form',
           },
           {
             name: '📝 Task Request',
             value: 'task_request',
-            description: 'Форма создания задачи',
+            description: 'Task creation form',
           },
           {
             name: '📊 Survey Form',
             value: 'survey_form',
-            description: 'Форма опроса',
+            description: 'Survey form',
           },
           {
             name: '🔐 Access Request',
             value: 'access_request',
-            description: 'Форма запроса доступа',
+            description: 'Access request form',
           },
         ],
         default: 'timeoff_request',
@@ -2490,14 +2490,14 @@ export class Pachca implements INodeType {
             formBuilderMode: ['template'],
           },
         },
-        description: 'Выберите готовый шаблон формы',
+        description: 'Select form template',
       },
       // Настройки формы для визуального конструктора
       {
         displayName: 'Form Title',
         name: 'formTitle',
         type: 'string',
-        default: 'Моя форма',
+        default: 'My form',
         displayOptions: {
           show: {
             resource: ['form'],
@@ -2505,13 +2505,13 @@ export class Pachca implements INodeType {
             formBuilderMode: ['builder'],
           },
         },
-        description: 'Заголовок формы (максимум 24 символа)',
+        description: 'Form title (max 24 characters)',
       },
       {
         displayName: 'Close Button Text',
         name: 'closeText',
         type: 'string',
-        default: 'Отмена',
+        default: 'Cancel',
         displayOptions: {
           show: {
             resource: ['form'],
@@ -2519,13 +2519,13 @@ export class Pachca implements INodeType {
             formBuilderMode: ['builder'],
           },
         },
-        description: 'Текст кнопки закрытия (максимум 24 символа)',
+        description: 'Close button text (max 24 characters)',
       },
       {
         displayName: 'Submit Button Text',
         name: 'submitText',
         type: 'string',
-        default: 'Отправить',
+        default: 'Submit',
         displayOptions: {
           show: {
             resource: ['form'],
@@ -2533,7 +2533,7 @@ export class Pachca implements INodeType {
             formBuilderMode: ['builder'],
           },
         },
-        description: 'Текст кнопки отправки (максимум 24 символа)',
+        description: 'Submit button text (max 24 characters)',
       },
       {
         displayName: 'Form Blocks',
@@ -2561,21 +2561,21 @@ export class Pachca implements INodeType {
                 name: 'type',
                 type: 'options',
                 options: [
-                  { name: '📝 Header', value: 'header', description: 'Заголовок секции' },
-                  { name: '📄 Plain Text', value: 'plain_text', description: 'Обычный текст' },
+                  { name: '📝 Header', value: 'header', description: 'Section header' },
+                  { name: '📄 Plain Text', value: 'plain_text', description: 'Plain text' },
                   {
                     name: '📝 Markdown Text',
                     value: 'markdown',
-                    description: 'Форматированный текст',
+                    description: 'Formatted text',
                   },
-                  { name: '➖ Divider', value: 'divider', description: 'Разделитель' },
-                  { name: '📝 Text Input', value: 'input', description: 'Поле ввода текста' },
-                  { name: '📋 Select Dropdown', value: 'select', description: 'Выпадающий список' },
-                  { name: '🔘 Radio Buttons', value: 'radio', description: 'Радиокнопки' },
-                  { name: '☑️ Checkboxes', value: 'checkbox', description: 'Чекбоксы' },
-                  { name: '📅 Date Picker', value: 'date', description: 'Выбор даты' },
-                  { name: '🕐 Time Picker', value: 'time', description: 'Выбор времени' },
-                  { name: '📎 File Upload', value: 'file_input', description: 'Загрузка файлов' },
+                  { name: '➖ Divider', value: 'divider', description: 'Divider' },
+                  { name: '📝 Text Input', value: 'input', description: 'Text input' },
+                  { name: '📋 Select Dropdown', value: 'select', description: 'Dropdown' },
+                  { name: '🔘 Radio Buttons', value: 'radio', description: 'Radio buttons' },
+                  { name: '☑️ Checkboxes', value: 'checkbox', description: 'Checkboxes' },
+                  { name: '📅 Date Picker', value: 'date', description: 'Date picker' },
+                  { name: '🕐 Time Picker', value: 'time', description: 'Time picker' },
+                  { name: '📎 File Upload', value: 'file_input', description: 'File upload' },
                 ],
                 default: 'header',
               },
@@ -2590,7 +2590,7 @@ export class Pachca implements INodeType {
                     type: ['header', 'plain_text', 'markdown'],
                   },
                 },
-                description: 'Текст для отображения',
+                description: 'Display text',
               },
               // Параметры для полей ввода
               {
@@ -2603,7 +2603,7 @@ export class Pachca implements INodeType {
                     type: ['input', 'select', 'radio', 'checkbox', 'date', 'time', 'file_input'],
                   },
                 },
-                description: 'Имя поля (будет передано в вебхуке)',
+                description: 'Field name (sent in webhook)',
               },
               {
                 displayName: 'Field Label',
@@ -2615,7 +2615,7 @@ export class Pachca implements INodeType {
                     type: ['input', 'select', 'radio', 'checkbox', 'date', 'time', 'file_input'],
                   },
                 },
-                description: 'Подпись к полю',
+                description: 'Field label',
               },
               {
                 displayName: 'Required',
@@ -2627,7 +2627,7 @@ export class Pachca implements INodeType {
                     type: ['input', 'select', 'radio', 'checkbox', 'date', 'time', 'file_input'],
                   },
                 },
-                description: 'Обязательное поле',
+                description: 'Required field',
               },
               {
                 displayName: 'Hint',
@@ -2639,7 +2639,7 @@ export class Pachca implements INodeType {
                     type: ['input', 'select', 'radio', 'checkbox', 'date', 'time', 'file_input'],
                   },
                 },
-                description: 'Подсказка под полем',
+                description: 'Hint below field',
               },
               // Специфичные параметры для input
               {
@@ -2652,7 +2652,7 @@ export class Pachca implements INodeType {
                     type: ['input'],
                   },
                 },
-                description: 'Подсказка внутри поля',
+                description: 'Placeholder text',
               },
               {
                 displayName: 'Multiline',
@@ -2664,7 +2664,7 @@ export class Pachca implements INodeType {
                     type: ['input'],
                   },
                 },
-                description: 'Многострочное поле',
+                description: 'Multiline field',
               },
               {
                 displayName: 'Initial Value',
@@ -2676,7 +2676,7 @@ export class Pachca implements INodeType {
                     type: ['input'],
                   },
                 },
-                description: 'Начальное значение',
+                description: 'Default value',
               },
               {
                 displayName: 'Min Length',
@@ -2688,7 +2688,7 @@ export class Pachca implements INodeType {
                     type: ['input'],
                   },
                 },
-                description: 'Минимальная длина текста',
+                description: 'Min text length',
               },
               {
                 displayName: 'Max Length',
@@ -2700,7 +2700,7 @@ export class Pachca implements INodeType {
                     type: ['input'],
                   },
                 },
-                description: 'Максимальная длина текста',
+                description: 'Max text length',
               },
               // Параметры для select, radio, checkbox
               {
@@ -2726,40 +2726,40 @@ export class Pachca implements INodeType {
                         name: 'text',
                         type: 'string',
                         default: '',
-                        description: 'Отображаемый текст',
+                        description: 'Display text',
                       },
                       {
                         displayName: 'Value',
                         name: 'value',
                         type: 'string',
                         default: '',
-                        description: 'Значение для отправки',
+                        description: 'Value to submit',
                       },
                       {
                         displayName: 'Description',
                         name: 'description',
                         type: 'string',
                         default: '',
-                        description: 'Описание опции (для radio/checkbox)',
+                        description: 'Option description (radio/checkbox)',
                       },
                       {
                         displayName: 'Selected',
                         name: 'selected',
                         type: 'boolean',
                         default: false,
-                        description: 'Выбрано по умолчанию (для select/radio)',
+                        description: 'Selected by default (select/radio)',
                       },
                       {
                         displayName: 'Checked',
                         name: 'checked',
                         type: 'boolean',
                         default: false,
-                        description: 'Отмечено по умолчанию (для checkbox)',
+                        description: 'Checked by default (checkbox)',
                       },
                     ],
                   },
                 ],
-                description: 'Варианты выбора',
+                description: 'Choice options',
               },
               // Параметры для date
               {
@@ -2772,7 +2772,7 @@ export class Pachca implements INodeType {
                     type: ['date'],
                   },
                 },
-                description: 'Начальная дата (YYYY-MM-DD)',
+                description: 'Initial date (YYYY-MM-DD)',
               },
               // Параметры для time
               {
@@ -2785,7 +2785,7 @@ export class Pachca implements INodeType {
                     type: ['time'],
                   },
                 },
-                description: 'Начальное время (HH:mm)',
+                description: 'Initial time (HH:mm)',
               },
               // Параметры для file_input
               {
@@ -2798,7 +2798,7 @@ export class Pachca implements INodeType {
                     type: ['file_input'],
                   },
                 },
-                description: 'Разрешенные типы файлов (через запятую, например: pdf,jpg,png)',
+                description: 'Allowed file types (comma-separated, e.g. pdf,jpg,png)',
               },
               {
                 displayName: 'Max Files',
@@ -2810,12 +2810,12 @@ export class Pachca implements INodeType {
                     type: ['file_input'],
                   },
                 },
-                description: 'Максимальное количество файлов',
+                description: 'Max number of files',
               },
             ],
           },
         ],
-        description: 'Блоки формы - добавляйте элементы для создания формы',
+        description: 'Form blocks - add elements to build the form',
       },
       // JSON редактор для продвинутых пользователей
       {
@@ -2823,7 +2823,7 @@ export class Pachca implements INodeType {
         name: 'customFormJson',
         type: 'json',
         default:
-          '{\n  "title": "Моя форма",\n  "close_text": "Отмена",\n  "submit_text": "Отправить",\n  "blocks": [\n    {\n      "type": "header",\n      "text": "Заголовок формы"\n    },\n    {\n      "type": "input",\n      "name": "field1",\n      "label": "Поле ввода",\n      "placeholder": "Введите текст",\n      "required": true\n    },\n    {\n      "type": "select",\n      "name": "choice",\n      "label": "Выберите вариант",\n      "options": [\n        {"text": "Вариант 1", "value": "option1", "selected": true},\n        {"text": "Вариант 2", "value": "option2"}\n      ],\n      "required": true\n    }\n  ]\n}',
+          '{\n  "title": "My form",\n  "close_text": "Cancel",\n  "submit_text": "Submit",\n  "blocks": [\n    {\n      "type": "header",\n      "text": "Form title"\n    },\n    {\n      "type": "input",\n      "name": "field1",\n      "label": "Input field",\n      "placeholder": "Enter text",\n      "required": true\n    },\n    {\n      "type": "select",\n      "name": "choice",\n      "label": "Choose option",\n      "options": [\n        {"text": "Option 1", "value": "option1", "selected": true},\n        {"text": "Option 2", "value": "option2"}\n      ],\n      "required": true\n    }\n  ]\n}',
         displayOptions: {
           show: {
             resource: ['form'],
@@ -2832,7 +2832,7 @@ export class Pachca implements INodeType {
           },
         },
         description:
-          'JSON структура кастомной формы. Используйте блоки: header, plain_text, markdown, divider, input, select, radio, checkbox, date, time, file_input',
+          'JSON structure for custom form. Use blocks: header, plain_text, markdown, divider, input, select, radio, checkbox, date, time, file_input',
       },
       {
         displayName: 'Trigger ID',
@@ -2845,7 +2845,7 @@ export class Pachca implements INodeType {
             operation: ['createView'],
           },
         },
-        description: 'Уникальный идентификатор события (полученный из вебхука кнопки)',
+        description: 'Unique event ID (from button webhook)',
       },
       {
         displayName: 'Private Metadata',
@@ -2859,7 +2859,7 @@ export class Pachca implements INodeType {
           },
         },
         description:
-          'Дополнительные данные, которые будут отправлены при отправке формы (JSON строка)',
+          'Extra data to send on form submit (JSON string)',
       },
       {
         displayName: 'Callback ID',
@@ -2872,7 +2872,7 @@ export class Pachca implements INodeType {
             operation: ['createView'],
           },
         },
-        description: 'Идентификатор для распознавания формы при получении результатов',
+        description: 'Form identifier for matching submitted results',
       },
       {
         displayName: 'Form Type',
@@ -2880,7 +2880,7 @@ export class Pachca implements INodeType {
         type: 'options',
         options: [
           {
-            name: '🤖 Auto-detect (рекомендуется)',
+            name: '🤖 Auto-detect (recommended)',
             value: 'auto',
           },
           {
@@ -2903,7 +2903,7 @@ export class Pachca implements INodeType {
             operation: ['processSubmission'],
           },
         },
-        description: 'Тип формы для обработки данных',
+        description: 'Form type for processing data',
       },
       {
         displayName: 'Validation Errors',
@@ -2917,7 +2917,7 @@ export class Pachca implements INodeType {
           },
         },
         description:
-          'Ошибки валидации для отправки пользователю (JSON объект с полями и сообщениями)',
+          'Validation errors to send to user (JSON object with field names and messages)',
       },
     ],
   };
@@ -4379,15 +4379,6 @@ export class Pachca implements INodeType {
                     }
                   );
                 } catch (error) {
-                  console.error('Upload params request FAILED:', error);
-                  console.error('Error details:', {
-                    status: (error as any).status,
-                    statusText: (error as any).statusText,
-                    message: (error as any).message,
-                    response: (error as any).response,
-                    responseData: (error as any).response?.data,
-                  });
-
                   // Попробуем без body
                   try {
                     uploadParams = await this.helpers.httpRequestWithAuthentication.call(
@@ -4399,7 +4390,6 @@ export class Pachca implements INodeType {
                       }
                     );
                   } catch (error2) {
-                    console.error('Upload params request FAILED (without body):', error2);
                     throw error; // Бросаем первую ошибку
                   }
                 }
@@ -4471,14 +4461,6 @@ export class Pachca implements INodeType {
                     },
                   });
                 } catch (error) {
-                  console.error('File upload to direct_url FAILED:', error);
-                  console.error('Upload error details:', {
-                    status: (error as any).status,
-                    statusText: (error as any).statusText,
-                    message: (error as any).message,
-                    response: (error as any).response,
-                    responseData: (error as any).response?.data,
-                  });
                   throw error;
                 }
 
@@ -5279,7 +5261,7 @@ export class Pachca implements INodeType {
                   templates: Object.keys(FORM_TEMPLATES).map((key) => ({
                     value: key,
                     title: FORM_TEMPLATES[key].title,
-                    description: `Готовый шаблон формы: ${FORM_TEMPLATES[key].title}`,
+                    description: `Preset form template: ${FORM_TEMPLATES[key].title}`,
                   })),
                 };
                 break;
@@ -5308,7 +5290,6 @@ export class Pachca implements INodeType {
           });
         }
       } catch (error) {
-        console.error('Error in Pachca node:', error);
         if (this.continueOnFail()) {
           returnData.push({
             json: {
