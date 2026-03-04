@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-pachca",
-  "version": "1.0.23",
+  "version": "1.0.24",
   "description": "Custom n8n node for integration with Pachca messenger API. Supports user, message, chat, file management and other resources.",
   "keywords": [
     "n8n-community-node-package",
@@ -35,8 +35,8 @@
     "setup-n8n": "mkdir -p dist/n8n-structure/nodes/Pachca dist/n8n-structure/credentials && cp dist/nodes/Pachca/Pachca.node.js dist/n8n-structure/nodes/Pachca/ && cp dist/nodes/Pachca/Pachca_white_mark.png dist/n8n-structure/nodes/Pachca/ && cp dist/nodes/Pachca/Pachca_dark_mark.png dist/n8n-structure/nodes/Pachca/ && cp dist/credentials/PachcaApi.credentials.js dist/n8n-structure/credentials/ && cp package.json dist/n8n-structure/",
     "dev": "tsc --watch",
     "format": "prettier nodes credentials --write",
-    "lint": "eslint nodes credentials package.json",
-    "lintfix": "eslint nodes credentials package.json --fix",
+    "lint": "n8n-node lint",
+    "lintfix": "eslint nodes/**/*.ts credentials/**/*.ts --fix",
     "prepublishOnly": "npm run build && npm run lint -s"
   },
   "files": [
@@ -55,7 +55,9 @@
     "n8n-workflow": "*"
   },
   "devDependencies": {
+    "@n8n/node-cli": "^0.20.0",
     "@types/node": "^24.3.1",
+    "n8n-workflow": "*",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "eslint": "^8.0.0",

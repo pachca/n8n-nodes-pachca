@@ -1,227 +1,227 @@
 # n8n Pachca Node
 
-Кастомная нода для интеграции с API мессенджера Pachca в n8n. Позволяет автоматизировать работу с пользователями, сообщениями, чатами, файлами и другими ресурсами Pachca.
+Custom n8n node for integration with the Pachca messenger API. Automate work with users, messages, chats, files, and other Pachca resources.
 
-## 📋 Содержание
+## Table of Contents
 
-- [Установка](#установка)
-- [Настройка](#настройка)
-- [Ресурсы и операции](#ресурсы-и-операции)
-- [Примеры использования](#примеры-использования)
-- [Устранение неполадок](#устранение-неполадок)
-- [Поддержка](#поддержка)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Resources and Operations](#resources-and-operations)
+- [Usage Examples](#usage-examples)
+- [Troubleshooting](#troubleshooting)
+- [Support](#support)
 
-## 🚀 Установка
+## Installation
 
-### Автоматическая установка
+### Automatic installation
 
-1. Скачайте архив с нодой:
+1. Download the node archive:
 ```bash
-wget https://github.com/doesntneedname/n8n-nodes-pachca/releases/latest/download/pachca-node-v2.2.2.tar.gz
+wget https://github.com/pachca/n8n-nodes-pachca/releases/latest/download/pachca-node-v2.2.2.tar.gz
 ```
 
-2. Распакуйте в директорию custom nodes:
+2. Extract to the custom nodes directory:
 ```bash
 tar -xzf pachca-node-v2.2.2.tar.gz -C /path/to/n8n/custom-nodes/
 ```
 
-3. Перезапустите n8n:
+3. Restart n8n:
 ```bash
 docker restart n8n-container
 ```
 
-### Ручная установка
+### Manual installation
 
-1. Клонируйте репозиторий:
+1. Clone the repository:
 ```bash
-git clone https://github.com/doesntneedname/n8n-nodes-pachca.git
+git clone https://github.com/pachca/n8n-nodes-pachca.git
 cd n8n-nodes-pachca
 ```
 
-2. Установите зависимости:
+2. Install dependencies:
 ```bash
 npm install
 ```
 
-3. Соберите проект:
+3. Build the project:
 ```bash
 npm run build
 ```
 
-4. Перезапустите n8n:
+4. Restart n8n:
 ```bash
 docker restart n8n-container
 ```
 
-## ⚙️ Настройка
+## Configuration
 
-### 1. Создание Credentials
+### 1. Creating credentials
 
-1. В n8n перейдите в **Settings** → **Credentials**
-2. Нажмите **Add Credential**
-3. Найдите **Pachca API** в списке
-4. Заполните поля:
+1. In n8n go to **Settings** → **Credentials**
+2. Click **Add Credential**
+3. Find **Pachca API** in the list
+4. Fill in the fields:
    - **Base URL**: `https://api.pachca.com/api/shared/v1`
-   - **Access Token**: Ваш токен доступа к API Pachca
+   - **Access Token**: Your Pachca API access token
 
-### 2. Получение Access Token
+### 2. Obtaining an access token
 
-Для получения токена доступа:
+To get an access token:
 
-1. Войдите в веб-версию Pachca
-2. Перейдите в **Настройки** → **Интеграции**
-3. Создайте новый токен доступа
-4. Скопируйте токен и вставьте в настройки credentials
+1. Log in to the Pachca web app
+2. Go to **Settings** → **Integrations**
+3. Create a new access token
+4. Copy the token and paste it into the credentials settings
 
-> ⚠️ **Важно**: Токен должен иметь необходимые права доступа для операций, которые вы планируете выполнять.
+> **Important**: The token must have the required permissions for the operations you plan to perform.
 
-## 📚 Ресурсы и операции
+## Resources and Operations
 
-### 👥 User (Пользователи)
+### User
 
-| Операция | Описание | Метод |
-|----------|----------|-------|
-| Get All | Получить список всех пользователей | GET |
-| Get By ID | Получить пользователя по ID | GET |
-| Create | Создать нового пользователя | POST |
-| Update | Обновить данные пользователя | PUT |
-| Delete | Удалить пользователя | DELETE |
+| Operation | Description | Method |
+|-----------|-------------|--------|
+| Get All | Get list of all users | GET |
+| Get By ID | Get user by ID | GET |
+| Create | Create new user | POST |
+| Update | Update user data | PUT |
+| Delete | Delete user | DELETE |
 
-**Параметры для Update:**
+**Update parameters:**
 - First Name, Last Name, Email
 - Nickname, Phone Number
 - Department, Title, Role
-- Suspended (деактивация)
-- List Tags (теги через запятую)
-- Custom Properties (дополнительные поля)
+- Suspended (deactivation)
+- List Tags (comma-separated tags)
+- Custom Properties (additional fields)
 
-### 💬 Message (Сообщения)
+### Message
 
-| Операция | Описание | Метод |
-|----------|----------|-------|
-| Send | Отправить сообщение | POST |
-| Get All By Chat | Получить сообщения чата | GET |
-| Get By ID | Получить сообщение по ID | GET |
-| Update | Редактировать сообщение | PUT |
-| Delete | Удалить сообщение | DELETE |
-| Get Read Members | Получить список прочитавших | GET |
+| Operation | Description | Method |
+|-----------|-------------|--------|
+| Send | Send message | POST |
+| Get All By Chat | Get chat messages | GET |
+| Get By ID | Get message by ID | GET |
+| Update | Edit message | PUT |
+| Delete | Delete message | DELETE |
+| Get Read Members | Get list of readers | GET |
 
-### 🏠 Chat (Чаты)
+### Chat
 
-| Операция | Описание | Метод |
-|----------|----------|-------|
-| Get All | Получить список чатов | GET |
-| Get By ID | Получить чат по ID | GET |
-| Create | Создать новый чат | POST |
-| Update | Обновить чат | PUT |
-| Archive | Архивировать чат | PUT |
-| Unarchive | Разархивировать чат | PUT |
+| Operation | Description | Method |
+|-----------|-------------|--------|
+| Get All | Get list of chats | GET |
+| Get By ID | Get chat by ID | GET |
+| Create | Create new chat | POST |
+| Update | Update chat | PUT |
+| Archive | Archive chat | PUT |
+| Unarchive | Unarchive chat | PUT |
 
-**Параметры для Create:**
-- Chat Name (название чата)
-- Channel (переключатель: канал/беседа)
-- Public (переключатель: открытый/закрытый)
+**Create parameters:**
+- Chat Name
+- Channel (channel/direct switch)
+- Public (public/private switch)
 
-### 🏷️ Group Tag (Групповые теги)
+### Group Tag
 
-| Операция | Описание | Метод |
-|----------|----------|-------|
-| Get All | Получить все теги | GET |
-| Get By ID | Получить тег по ID | GET |
-| Create | Создать новый тег | POST |
-| Update | Обновить тег | PUT |
-| Delete | Удалить тег | DELETE |
-| Add Tags | Добавить теги к чату | POST |
-| Remove Tag | Удалить тег из чата | DELETE |
+| Operation | Description | Method |
+|-----------|-------------|--------|
+| Get All | Get all tags | GET |
+| Get By ID | Get tag by ID | GET |
+| Create | Create new tag | POST |
+| Update | Update tag | PUT |
+| Delete | Delete tag | DELETE |
+| Add Tags | Add tags to chat | POST |
+| Remove Tag | Remove tag from chat | DELETE |
 
-### 📁 File (Файлы)
+### File
 
-| Операция | Описание | Метод |
-|----------|----------|-------|
-| Upload | Загрузить файл | POST |
-| Get Upload Params | Получить параметры загрузки | POST |
+| Operation | Description | Method |
+|-----------|-------------|--------|
+| Upload | Upload file | POST |
+| Get Upload Params | Get upload parameters | POST |
 
-**Поддерживаемые источники файлов:**
-- URL (ссылка на файл)
-- Binary (бинарные данные из предыдущих нод)
+**Supported file sources:**
+- URL (file link)
+- Binary (binary data from previous nodes)
 
-### 🎯 Custom Fields (Дополнительные поля)
+### Custom Fields
 
-| Операция | Описание | Метод |
-|----------|----------|-------|
-| Get Custom Properties | Получить список полей | GET |
+| Operation | Description | Method |
+|-----------|-------------|--------|
+| Get Custom Properties | Get list of fields | GET |
 
-### ✅ Task (Задачи)
+### Task
 
-| Операция | Описание | Метод |
-|----------|----------|-------|
-| Create | Создать задачу | POST |
+| Operation | Description | Method |
+|-----------|-------------|--------|
+| Create | Create task | POST |
 
-### 🤖 Bot (Боты)
+### Bot
 
-| Операция | Описание | Метод |
-|----------|----------|-------|
-| Update | Обновить настройки бота | PUT |
+| Operation | Description | Method |
+|-----------|-------------|--------|
+| Update | Update bot settings | PUT |
 
-### 👤 Status (Статус)
+### Status
 
-| Операция | Описание | Метод |
-|----------|----------|-------|
-| Get Profile | Получить профиль | GET |
-| Get Status | Получить статус | GET |
-| Update Status | Обновить статус | PUT |
-| Delete Status | Удалить статус | DELETE |
+| Operation | Description | Method |
+|-----------|-------------|--------|
+| Get Profile | Get profile | GET |
+| Get Status | Get status | GET |
+| Update Status | Update status | PUT |
+| Delete Status | Delete status | DELETE |
 
-### 🧵 Thread (Потоки)
+### Thread
 
-| Операция | Описание | Метод |
-|----------|----------|-------|
-| Create Thread | Создать поток | POST |
-| Get Thread | Получить поток | GET |
+| Operation | Description | Method |
+|-----------|-------------|--------|
+| Create Thread | Create thread | POST |
+| Get Thread | Get thread | GET |
 
-### 👍 Reactions (Реакции)
+### Reactions
 
-| Операция | Описание | Метод |
-|----------|----------|-------|
-| Add Reaction | Добавить реакцию | POST |
-| Delete Reaction | Удалить реакцию | DELETE |
-| Get Reactions | Получить реакции | GET |
+| Operation | Description | Method |
+|-----------|-------------|--------|
+| Add Reaction | Add reaction | POST |
+| Delete Reaction | Delete reaction | DELETE |
+| Get Reactions | Get reactions | GET |
 
-## 💡 Примеры использования
+## Usage Examples
 
-### 1. Отправка сообщения в чат
+### 1. Send a message to a chat
 
 ```json
 {
   "resource": "message",
   "operation": "send",
   "chatId": 12345,
-  "content": "Привет! Это автоматическое сообщение от n8n."
+  "content": "Hello! This is an automated message from n8n."
 }
 ```
 
-### 2. Создание чата с настройками
+### 2. Create a chat with settings
 
 ```json
 {
   "resource": "chat",
   "operation": "create",
-  "chatName": "Новый проект",
+  "chatName": "New project",
   "channel": true,
   "public": false
 }
 ```
 
-### 3. Обновление пользователя
+### 3. Update a user
 
 ```json
 {
   "resource": "user",
   "operation": "update",
   "userId": 123,
-  "firstName": "Иван",
-  "lastName": "Петров",
-  "department": "Разработка",
+  "firstName": "John",
+  "lastName": "Doe",
+  "department": "Engineering",
   "title": "Senior Developer",
   "role": "user",
   "listTags": "Backend, Senior",
@@ -229,14 +229,14 @@ docker restart n8n-container
     "property": [
       {
         "id": 1678,
-        "value": "Москва"
+        "value": "New York"
       }
     ]
   }
 }
 ```
 
-### 4. Загрузка файла
+### 4. Upload a file
 
 ```json
 {
@@ -248,99 +248,99 @@ docker restart n8n-container
 }
 ```
 
-### 5. Workflow: Уведомление о новом пользователе
+### 5. Workflow: New user notification
 
-1. **Webhook** - получает данные о новом пользователе
-2. **Pachca: Create User** - создает пользователя в Pachca
-3. **Pachca: Send Message** - отправляет приветственное сообщение
-4. **Pachca: Create Chat** - создает персональный чат
+1. **Webhook** – receives new user data
+2. **Pachca: Create User** – creates the user in Pachca
+3. **Pachca: Send Message** – sends a welcome message
+4. **Pachca: Create Chat** – creates a personal chat
 
-## 🔧 Устранение неполадок
+## Troubleshooting
 
-### Ошибка "Invalid URL"
+### "Invalid URL" error
 
-**Проблема**: API запросы не проходят из-за неправильного URL.
+**Problem**: API requests fail due to incorrect URL.
 
-**Решение**:
-1. Проверьте Base URL в credentials: `https://api.pachca.com/api/shared/v1`
-2. Убедитесь, что токен доступа действителен
-3. Проверьте права доступа токена
+**Solution**:
+1. Check Base URL in credentials: `https://api.pachca.com/api/shared/v1`
+2. Ensure the access token is valid
+3. Check token permissions
 
-### Ошибка "Request failed with status code 404"
+### "Request failed with status code 404"
 
-**Проблема**: Ресурс не найден.
+**Problem**: Resource not found.
 
-**Решение**:
-1. Проверьте правильность ID ресурса
-2. Убедитесь, что у токена есть права на доступ к ресурсу
-3. Проверьте, что ресурс существует
+**Solution**:
+1. Verify the resource ID
+2. Ensure the token has access to the resource
+3. Confirm the resource exists
 
-### Ошибка "Request failed with status code 400"
+### "Request failed with status code 400"
 
-**Проблема**: Неверные параметры запроса.
+**Problem**: Invalid request parameters.
 
-**Решение**:
-1. Проверьте обязательные поля
-2. Убедитесь в правильности формата данных
-3. Проверьте ограничения API (длина текста, размер файла)
+**Solution**:
+1. Check required fields
+2. Verify data format
+3. Check API limits (text length, file size)
 
-### Файлы не загружаются
+### Files not uploading
 
-**Проблема**: Ошибка при загрузке файлов.
+**Problem**: Error when uploading files.
 
-**Решение**:
-1. Проверьте доступность URL файла
-2. Убедитесь, что файл не превышает лимиты размера
-3. Проверьте формат файла (поддерживаемые типы)
+**Solution**:
+1. Check that the file URL is accessible
+2. Ensure the file does not exceed size limits
+3. Check file format (supported types)
 
-### Нода не отображается в списке
+### Node not showing in the list
 
-**Проблема**: Кастомная нода не появляется в n8n.
+**Problem**: Custom node does not appear in n8n.
 
-**Решение**:
-1. Убедитесь, что файлы скопированы в правильную директорию
-2. Перезапустите n8n
-3. Проверьте логи n8n на наличие ошибок загрузки
+**Solution**:
+1. Ensure files are copied to the correct directory
+2. Restart n8n
+3. Check n8n logs for loading errors
 
-## 📞 Поддержка
+## Support
 
-### Получение помощи
+### Getting help
 
-- **GitHub Issues**: [Создать issue](https://github.com/doesntneedname/n8n-nodes-pachca/issues)
-- **Документация Pachca API**: [api.pachca.com](https://api.pachca.com)
+- **GitHub Issues**: [Create an issue](https://github.com/pachca/n8n-nodes-pachca/issues)
+- **Pachca API documentation**: [api.pachca.com](https://api.pachca.com)
 - **n8n Community**: [community.n8n.io](https://community.n8n.io)
 
-### Сообщение об ошибках
+### Reporting bugs
 
-При сообщении об ошибке укажите:
+When reporting a bug please include:
 
-1. Версию n8n
-2. Версию ноды
-3. Описание проблемы
-4. Логи ошибок
-5. Шаги для воспроизведения
+1. n8n version
+2. Node version
+3. Problem description
+4. Error logs
+5. Steps to reproduce
 
-### Вклад в развитие
+### Contributing
 
-Мы приветствуем вклад в развитие проекта:
+We welcome contributions:
 
-1. Fork репозитория
-2. Создайте feature branch
-3. Внесите изменения
-4. Создайте Pull Request
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Open a Pull Request
 
-## 📄 Лицензия
+## License
 
-MIT License - см. файл [LICENSE](LICENSE) для подробностей.
+MIT License – see the [LICENSE](LICENSE) file for details.
 
-## 🏷️ Версии
+## Versions
 
 ### v1.0.0
-- Базовая функциональность
-- Поддержка всех основных ресурсов Pachca API
-- Загрузка файлов
-- Управление пользователями и чатами
+- Base functionality
+- Support for all main Pachca API resources
+- File upload
+- User and chat management
 
 ---
 
-**Создано с ❤️ для сообщества n8n и Pachca**
+**Made with ❤️ for the n8n and Pachca community**

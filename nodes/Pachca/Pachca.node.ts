@@ -3,6 +3,7 @@ import {
   INodeExecutionData,
   INodeType,
   INodeTypeDescription,
+  NodeConnectionTypes,
   NodeOperationError,
 } from 'n8n-workflow';
 
@@ -406,21 +407,14 @@ export class Pachca implements INodeType {
     defaults: {
       name: 'Pachca',
     },
-    inputs: ['main' as any],
-    outputs: ['main' as any],
+    inputs: [NodeConnectionTypes.Main],
+    outputs: [NodeConnectionTypes.Main],
     credentials: [
       {
         name: 'pachcaApi',
         required: true,
       },
     ],
-    requestDefaults: {
-      baseURL: '={{$credentials.baseUrl}}',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-    },
     properties: [
       {
         displayName: 'Resource',
@@ -1259,15 +1253,51 @@ export class Pachca implements INodeType {
         description: 'Get all users with full pagination (ignores per/page)',
       },
       {
+        displayName: 'Additional Options',
+        name: 'additionalOptions',
+        type: 'collection',
+        placeholder: 'Add option',
+        default: {},
+        displayOptions: {
+          show: {
+            resource: ['user'],
+            operation: ['getAll'],
+            getAllUsersNoLimit: [false],
+          },
+        },
+        options: [
+          {
+            displayName: 'Per Page',
+            name: 'per',
+            type: 'number',
+            default: 25,
+            description: 'Items per page (max 50)',
+          },
+          {
+            displayName: 'Page',
+            name: 'page',
+            type: 'number',
+            default: 1,
+            description: 'Page number',
+          },
+          {
+            displayName: 'Query',
+            name: 'query',
+            type: 'string',
+            default: '',
+            description: 'Search phrase to filter users',
+          },
+        ],
+      },
+      {
         displayName: 'Per Page',
         name: 'per',
         type: 'number',
         default: 25,
         displayOptions: {
           show: {
-            resource: ['message', 'user', 'chat', 'groupTag', 'customFields'],
+            resource: ['message', 'chat', 'groupTag', 'customFields'],
             operation: ['getAll', 'getUsers'],
-            getAllUsersNoLimit: [false],
           },
         },
         description: 'Items per page (max 50)',
@@ -1279,9 +1309,8 @@ export class Pachca implements INodeType {
         default: 1,
         displayOptions: {
           show: {
-            resource: ['message', 'user', 'chat', 'groupTag', 'customFields'],
+            resource: ['message', 'chat', 'groupTag', 'customFields'],
             operation: ['getAll', 'getUsers'],
-            getAllUsersNoLimit: [false],
           },
         },
         description: 'Page number',
@@ -1338,20 +1367,6 @@ export class Pachca implements INodeType {
         },
         default: '',
         description: 'User last name',
-      },
-      {
-        displayName: 'Query',
-        name: 'query',
-        type: 'string',
-        displayOptions: {
-          show: {
-            resource: ['user'],
-            operation: ['getAll'],
-            getAllUsersNoLimit: [false],
-          },
-        },
-        default: '',
-        description: 'Search phrase to filter users',
       },
       {
         displayName: 'Filter Role',
@@ -3056,19 +3071,31 @@ export class Pachca implements INodeType {
                     },
                   };
                 } else {
-                  // Normal mode - single page request
-                  // Note: API uses 'limit' and 'cursor', but keeping 'per' and 'page' for backward compatibility
+                  // Normal mode - single page request (Additional Options; fallback to legacy root params for backward compatibility)
+                  const additionalOptions = (this.getNodeParameter('additionalOptions', i) as {
+                    per?: number;
+                    page?: number;
+                    query?: string;
+                  }) || {};
+                  const per =
+                    additionalOptions.per ??
+                    (this.getNodeParameter('per', i, undefined) as number | undefined) ??
+                    25;
+                  const page =
+                    additionalOptions.page ??
+                    (this.getNodeParameter('page', i, undefined) as number | undefined) ??
+                    1;
+                  const query =
+                    additionalOptions.query ??
+                    (this.getNodeParameter('query', i, undefined) as string | undefined) ??
+                    '';
                   responseData = await this.helpers.httpRequestWithAuthentication.call(
                     this,
                     'pachcaApi',
                     {
                       method: 'GET',
                       url: `${credentials?.baseUrl}/users`,
-                      qs: {
-                        per: this.getNodeParameter('per', i, 25),
-                        page: this.getNodeParameter('page', i, 1),
-                        query: this.getNodeParameter('query', i, ''),
-                      },
+                      qs: { per, page, query },
                     }
                   );
                 }
