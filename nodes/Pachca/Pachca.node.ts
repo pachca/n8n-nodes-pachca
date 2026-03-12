@@ -1290,30 +1290,33 @@ export class Pachca implements INodeType {
         ],
       },
       {
-        displayName: 'Per Page',
-        name: 'per',
-        type: 'number',
-        default: 25,
+        displayName: 'Additional Options',
+        name: 'paginationOptions',
+        type: 'collection',
+        placeholder: 'Add option',
+        default: {},
         displayOptions: {
           show: {
             resource: ['message', 'chat', 'groupTag', 'customFields'],
             operation: ['getAll', 'getUsers'],
           },
         },
-        description: 'Items per page (max 50)',
-      },
-      {
-        displayName: 'Page',
-        name: 'page',
-        type: 'number',
-        default: 1,
-        displayOptions: {
-          show: {
-            resource: ['message', 'chat', 'groupTag', 'customFields'],
-            operation: ['getAll', 'getUsers'],
+        options: [
+          {
+            displayName: 'Per Page',
+            name: 'per',
+            type: 'number',
+            default: 25,
+            description: 'Items per page (max 50)',
           },
-        },
-        description: 'Page number',
+          {
+            displayName: 'Page',
+            name: 'page',
+            type: 'number',
+            default: 1,
+            description: 'Page number',
+          },
+        ],
       },
       // User parameters
       {
@@ -1369,24 +1372,11 @@ export class Pachca implements INodeType {
         description: 'User last name',
       },
       {
-        displayName: 'Filter Role',
-        name: 'filterRole',
-        type: 'multiOptions',
-        options: [
-          {
-            name: 'Admin',
-            value: 'admin',
-          },
-          {
-            name: 'User',
-            value: 'user',
-          },
-          {
-            name: 'Multi Guest',
-            value: 'multi_guest',
-          },
-        ],
-        default: [],
+        displayName: 'Additional Options',
+        name: 'filterOptions',
+        type: 'collection',
+        placeholder: 'Add option',
+        default: {},
         displayOptions: {
           show: {
             resource: ['user'],
@@ -1394,203 +1384,61 @@ export class Pachca implements INodeType {
             getAllUsersNoLimit: [true],
           },
         },
-        description: 'Filter by user roles (if not set - all roles)',
-      },
-      {
-        displayName: 'Filter Bot',
-        name: 'filterBot',
-        type: 'options',
         options: [
           {
-            name: 'All',
-            value: 'all',
+            displayName: 'Filter Role',
+            name: 'filterRole',
+            type: 'multiOptions',
+            options: [
+              { name: 'Admin', value: 'admin' },
+              { name: 'User', value: 'user' },
+              { name: 'Multi Guest', value: 'multi_guest' },
+            ],
+            default: [],
+            description: 'Filter by user roles (if not set - all roles)',
           },
           {
-            name: 'Users Only',
-            value: 'users',
+            displayName: 'Filter Bot',
+            name: 'filterBot',
+            type: 'options',
+            options: [
+              { name: 'All', value: 'all' },
+              { name: 'Users Only', value: 'users' },
+              { name: 'Bots Only', value: 'bots' },
+            ],
+            default: 'all',
+            description: 'Filter by type: users or bots',
           },
           {
-            name: 'Bots Only',
-            value: 'bots',
+            displayName: 'Filter Suspended',
+            name: 'filterSuspended',
+            type: 'options',
+            options: [
+              { name: 'All', value: 'all' },
+              { name: 'Active Only (suspended=false)', value: 'active' },
+              { name: 'Suspended Only (suspended=true)', value: 'suspended' },
+            ],
+            default: 'all',
+            description: 'Filter by block status',
+          },
+          {
+            displayName: 'Filter Invite Status',
+            name: 'filterInviteStatus',
+            type: 'multiOptions',
+            options: [
+              { name: 'Confirmed', value: 'confirmed' },
+              { name: 'Sent', value: 'sent' },
+            ],
+            default: [],
+            description: 'Filter by invitation status (if not set - all statuses)',
           },
         ],
-        default: 'all',
-        displayOptions: {
-          show: {
-            resource: ['user'],
-            operation: ['getAll'],
-            getAllUsersNoLimit: [true],
-          },
-        },
-        description: 'Filter by type: users or bots',
       },
       {
-        displayName: 'Filter Suspended',
-        name: 'filterSuspended',
-        type: 'options',
-        options: [
-          {
-            name: 'All',
-            value: 'all',
-          },
-          {
-            name: 'Active Only (suspended=false)',
-            value: 'active',
-          },
-          {
-            name: 'Suspended Only (suspended=true)',
-            value: 'suspended',
-          },
-        ],
-        default: 'all',
-        displayOptions: {
-          show: {
-            resource: ['user'],
-            operation: ['getAll'],
-            getAllUsersNoLimit: [true],
-          },
-        },
-        description: 'Filter by block status',
-      },
-      {
-        displayName: 'Filter Invite Status',
-        name: 'filterInviteStatus',
-        type: 'multiOptions',
-        options: [
-          {
-            name: 'Confirmed',
-            value: 'confirmed',
-          },
-          {
-            name: 'Sent',
-            value: 'sent',
-          },
-        ],
-        default: [],
-        displayOptions: {
-          show: {
-            resource: ['user'],
-            operation: ['getAll'],
-            getAllUsersNoLimit: [true],
-          },
-        },
-        description: 'Filter by invitation status (if not set - all statuses)',
-      },
-      {
-        displayName: 'Nickname',
-        name: 'nickname',
-        type: 'string',
-        displayOptions: {
-          show: {
-            resource: ['user'],
-            operation: ['create', 'update'],
-          },
-        },
-        default: '',
-        description: 'User nickname',
-      },
-      {
-        displayName: 'Phone Number',
-        name: 'phoneNumber',
-        type: 'string',
-        displayOptions: {
-          show: {
-            resource: ['user'],
-            operation: ['create', 'update'],
-          },
-        },
-        default: '',
-        description: 'Phone number',
-      },
-      {
-        displayName: 'Department',
-        name: 'department',
-        type: 'string',
-        displayOptions: {
-          show: {
-            resource: ['user'],
-            operation: ['create', 'update'],
-          },
-        },
-        default: '',
-        description: 'Department',
-      },
-      {
-        displayName: 'Title',
-        name: 'title',
-        type: 'string',
-        displayOptions: {
-          show: {
-            resource: ['user'],
-            operation: ['create', 'update'],
-          },
-        },
-        default: '',
-        description: 'Job title',
-      },
-      {
-        displayName: 'Role',
-        name: 'role',
-        type: 'options',
-        options: [
-          {
-            name: 'Admin',
-            value: 'admin',
-            description: 'Administrator',
-          },
-          {
-            name: 'User',
-            value: 'user',
-            description: 'Employee',
-          },
-          {
-            name: 'Multi Guest',
-            value: 'multi_guest',
-            description: 'Multi-guest',
-          },
-        ],
-        default: 'user',
-        displayOptions: {
-          show: {
-            resource: ['user'],
-            operation: ['create', 'update'],
-          },
-        },
-        description: 'Access level',
-      },
-      {
-        displayName: 'Suspended',
-        name: 'suspended',
-        type: 'boolean',
-        default: false,
-        displayOptions: {
-          show: {
-            resource: ['user'],
-            operation: ['update'],
-          },
-        },
-        description: 'User deactivation',
-      },
-      {
-        displayName: 'List Tags',
-        name: 'listTags',
-        type: 'string',
-        default: '',
-        displayOptions: {
-          show: {
-            resource: ['user'],
-            operation: ['create', 'update'],
-          },
-        },
-        description: 'User tags (comma-separated)',
-      },
-      {
-        displayName: 'Custom Properties',
-        name: 'customProperties',
-        type: 'fixedCollection',
-        typeOptions: {
-          multipleValues: true,
-        },
+        displayName: 'Additional Fields',
+        name: 'additionalFields',
+        type: 'collection',
+        placeholder: 'Add field',
         default: {},
         displayOptions: {
           show: {
@@ -1600,27 +1448,90 @@ export class Pachca implements INodeType {
         },
         options: [
           {
-            name: 'property',
-            displayName: 'Property',
-            values: [
+            displayName: 'Nickname',
+            name: 'nickname',
+            type: 'string',
+            default: '',
+            description: 'User nickname',
+          },
+          {
+            displayName: 'Phone Number',
+            name: 'phoneNumber',
+            type: 'string',
+            default: '',
+            description: 'Phone number',
+          },
+          {
+            displayName: 'Department',
+            name: 'department',
+            type: 'string',
+            default: '',
+            description: 'Department',
+          },
+          {
+            displayName: 'Title',
+            name: 'title',
+            type: 'string',
+            default: '',
+            description: 'Job title',
+          },
+          {
+            displayName: 'Role',
+            name: 'role',
+            type: 'options',
+            options: [
+              { name: 'Admin', value: 'admin', description: 'Administrator' },
+              { name: 'User', value: 'user', description: 'Employee' },
+              { name: 'Multi Guest', value: 'multi_guest', description: 'Multi-guest' },
+            ],
+            default: 'user',
+            description: 'Access level',
+          },
+          {
+            displayName: 'Suspended',
+            name: 'suspended',
+            type: 'boolean',
+            default: false,
+            description: 'User deactivation',
+          },
+          {
+            displayName: 'List Tags',
+            name: 'listTags',
+            type: 'string',
+            default: '',
+            description: 'User tags (comma-separated)',
+          },
+          {
+            displayName: 'Custom Properties',
+            name: 'customProperties',
+            type: 'fixedCollection',
+            typeOptions: { multipleValues: true },
+            default: {},
+            options: [
               {
-                displayName: 'Field ID',
-                name: 'id',
-                type: 'number',
-                default: 0,
-                description: 'Custom field identifier',
-              },
-              {
-                displayName: 'Value',
-                name: 'value',
-                type: 'string',
-                default: '',
-                description: 'Field value',
+                name: 'property',
+                displayName: 'Property',
+                values: [
+                  {
+                    displayName: 'Field ID',
+                    name: 'id',
+                    type: 'number',
+                    default: 0,
+                    description: 'Custom field identifier',
+                  },
+                  {
+                    displayName: 'Value',
+                    name: 'value',
+                    type: 'string',
+                    default: '',
+                    description: 'Field value',
+                  },
+                ],
               },
             ],
+            description: 'User custom fields',
           },
         ],
-        description: 'User custom fields',
       },
       // Chat parameters
       {
@@ -1686,97 +1597,47 @@ export class Pachca implements INodeType {
         description: 'Open (true) or closed (false) access',
       },
       {
-        displayName: 'Per Page',
-        name: 'per',
-        type: 'number',
-        default: 25,
+        displayName: 'Additional Options',
+        name: 'chatMembersOptions',
+        type: 'collection',
+        placeholder: 'Add option',
+        default: {},
         displayOptions: {
           show: {
             resource: ['chat'],
-            operation: ['getAll'],
+            operation: ['getMembers'],
           },
         },
-        description: 'Items per page (max 50)',
-      },
-      {
-        displayName: 'Page',
-        name: 'page',
-        type: 'number',
-        default: 1,
-        displayOptions: {
-          show: {
-            resource: ['chat'],
-            operation: ['getAll'],
-          },
-        },
-        description: 'Page number',
-      },
-      // Chat Members parameters
-      {
-        displayName: 'Role',
-        name: 'role',
-        type: 'options',
         options: [
           {
-            name: 'All',
-            value: 'all',
-            description: 'Any role',
+            displayName: 'Role',
+            name: 'role',
+            type: 'options',
+            options: [
+              { name: 'All', value: 'all', description: 'Any role' },
+              { name: 'Owner', value: 'owner', description: 'Creator' },
+              { name: 'Admin', value: 'admin', description: 'Administrator' },
+              { name: 'Editor', value: 'editor', description: 'Editor' },
+              { name: 'Member', value: 'member', description: 'Member/Subscriber' },
+            ],
+            default: 'all',
+            description: 'Chat role filter',
           },
           {
-            name: 'Owner',
-            value: 'owner',
-            description: 'Creator',
+            displayName: 'Limit',
+            name: 'limit',
+            type: 'number',
+            default: 50,
+            description: 'Number of members to return (max 50)',
           },
           {
-            name: 'Admin',
-            value: 'admin',
-            description: 'Administrator',
-          },
-          {
-            name: 'Editor',
-            value: 'editor',
-            description: 'Editor',
-          },
-          {
-            name: 'Member',
-            value: 'member',
-            description: 'Member/Subscriber',
+            displayName: 'Cursor',
+            name: 'cursor',
+            type: 'string',
+            default: '',
+            description: 'Pagination cursor (from meta.paginate.next_page)',
           },
         ],
-        default: 'all',
-        displayOptions: {
-          show: {
-            resource: ['chat'],
-            operation: ['getMembers'],
-          },
-        },
-        description: 'Chat role filter',
-      },
-      {
-        displayName: 'Limit',
-        name: 'limit',
-        type: 'number',
-        default: 50,
-        displayOptions: {
-          show: {
-            resource: ['chat'],
-            operation: ['getMembers'],
-          },
-        },
-        description: 'Number of members to return (max 50)',
-      },
-      {
-        displayName: 'Cursor',
-        name: 'cursor',
-        type: 'string',
-        default: '',
-        displayOptions: {
-          show: {
-            resource: ['chat'],
-            operation: ['getMembers'],
-          },
-        },
-        description: 'Pagination cursor (from meta.paginate.next_page)',
       },
       {
         displayName: 'Member IDs',
@@ -2211,30 +2072,33 @@ export class Pachca implements INodeType {
         description: 'Outgoing webhook URL',
       },
       {
-        displayName: 'Per Page',
-        name: 'readMembersPer',
-        type: 'number',
-        default: 300,
+        displayName: 'Additional Options',
+        name: 'readMembersOptions',
+        type: 'collection',
+        placeholder: 'Add option',
+        default: {},
         displayOptions: {
           show: {
             resource: ['message'],
             operation: ['getReadMembers'],
           },
         },
-        description: 'Number of users to return (max 300)',
-      },
-      {
-        displayName: 'Page',
-        name: 'readMembersPage',
-        type: 'number',
-        default: 1,
-        displayOptions: {
-          show: {
-            resource: ['message'],
-            operation: ['getReadMembers'],
+        options: [
+          {
+            displayName: 'Per Page',
+            name: 'readMembersPer',
+            type: 'number',
+            default: 300,
+            description: 'Number of users to return (max 300)',
           },
-        },
-        description: 'Page of readers to fetch',
+          {
+            displayName: 'Page',
+            name: 'readMembersPage',
+            type: 'number',
+            default: 1,
+            description: 'Page of readers to fetch',
+          },
+        ],
       },
       // Link Preview parameters
       {
@@ -2381,30 +2245,33 @@ export class Pachca implements INodeType {
         description: 'Reaction emoji (e.g. 👍, 🔥, ⭐)',
       },
       {
-        displayName: 'Per Page',
-        name: 'reactionsPer',
-        type: 'number',
-        default: 50,
+        displayName: 'Additional Options',
+        name: 'reactionsOptions',
+        type: 'collection',
+        placeholder: 'Add option',
+        default: {},
         displayOptions: {
           show: {
             resource: ['reactions'],
             operation: ['getReactions'],
           },
         },
-        description: 'Number of reactions to return (max 50)',
-      },
-      {
-        displayName: 'Page',
-        name: 'reactionsPage',
-        type: 'number',
-        default: 1,
-        displayOptions: {
-          show: {
-            resource: ['reactions'],
-            operation: ['getReactions'],
+        options: [
+          {
+            displayName: 'Per Page',
+            name: 'reactionsPer',
+            type: 'number',
+            default: 50,
+            description: 'Number of reactions to return (max 50)',
           },
-        },
-        description: 'Reactions page to fetch',
+          {
+            displayName: 'Page',
+            name: 'reactionsPage',
+            type: 'number',
+            default: 1,
+            description: 'Reactions page to fetch',
+          },
+        ],
       },
       // Thread parameters
       {
@@ -3018,19 +2885,21 @@ export class Pachca implements INodeType {
                   let filteredUsers = [...allUsers];
                   const totalBeforeFilter = filteredUsers.length;
 
-                  // Получаем параметры фильтрации
-                  const filterRole = this.getNodeParameter('filterRole', i, []) as string[];
-                  const filterBot = this.getNodeParameter('filterBot', i, 'all') as string;
-                  const filterSuspended = this.getNodeParameter(
-                    'filterSuspended',
-                    i,
-                    'all'
-                  ) as string;
-                  const filterInviteStatus = this.getNodeParameter(
-                    'filterInviteStatus',
-                    i,
-                    []
-                  ) as string[];
+                  // Получаем параметры фильтрации (Additional Options; fallback to legacy root params)
+                  const filterOpts =
+                    (this.getNodeParameter('filterOptions', i) as Record<string, unknown>) || {};
+                  const filterRole =
+                    (filterOpts.filterRole as string[]) ??
+                    (this.getNodeParameter('filterRole', i, []) as string[]);
+                  const filterBot =
+                    (filterOpts.filterBot as string) ??
+                    (this.getNodeParameter('filterBot', i, 'all') as string);
+                  const filterSuspended =
+                    (filterOpts.filterSuspended as string) ??
+                    (this.getNodeParameter('filterSuspended', i, 'all') as string);
+                  const filterInviteStatus =
+                    (filterOpts.filterInviteStatus as string[]) ??
+                    (this.getNodeParameter('filterInviteStatus', i, []) as string[]);
 
                   // Фильтр по роли
                   if (filterRole && filterRole.length > 0) {
@@ -3072,11 +2941,12 @@ export class Pachca implements INodeType {
                   };
                 } else {
                   // Normal mode - single page request (Additional Options; fallback to legacy root params for backward compatibility)
-                  const additionalOptions = (this.getNodeParameter('additionalOptions', i) as {
-                    per?: number;
-                    page?: number;
-                    query?: string;
-                  }) || {};
+                  const additionalOptions =
+                    (this.getNodeParameter('additionalOptions', i) as {
+                      per?: number;
+                      page?: number;
+                      query?: string;
+                    }) || {};
                   const per =
                     additionalOptions.per ??
                     (this.getNodeParameter('per', i, undefined) as number | undefined) ??
@@ -3133,14 +3003,30 @@ export class Pachca implements INodeType {
                 const firstName = this.getNodeParameter('firstName', i) as string;
                 const lastName = this.getNodeParameter('lastName', i) as string;
                 const email = this.getNodeParameter('email', i) as string;
-                const nickname = this.getNodeParameter('nickname', i) as string;
-                const phoneNumber = this.getNodeParameter('phoneNumber', i) as string;
-                const department = this.getNodeParameter('department', i) as string;
-                const title = this.getNodeParameter('title', i) as string;
-                const role = this.getNodeParameter('role', i) as string;
-                const suspended = this.getNodeParameter('suspended', i) as boolean;
-                const listTags = this.getNodeParameter('listTags', i) as string;
-                const customProperties = this.getNodeParameter('customProperties', i) as any;
+                const addlFields =
+                  (this.getNodeParameter('additionalFields', i) as Record<string, unknown>) || {};
+                const nickname =
+                  (addlFields.nickname as string) ??
+                  (this.getNodeParameter('nickname', i) as string);
+                const phoneNumber =
+                  (addlFields.phoneNumber as string) ??
+                  (this.getNodeParameter('phoneNumber', i) as string);
+                const department =
+                  (addlFields.department as string) ??
+                  (this.getNodeParameter('department', i) as string);
+                const title =
+                  (addlFields.title as string) ?? (this.getNodeParameter('title', i) as string);
+                const role =
+                  (addlFields.role as string) ?? (this.getNodeParameter('role', i) as string);
+                const suspended =
+                  (addlFields.suspended as boolean) ??
+                  (this.getNodeParameter('suspended', i) as boolean);
+                const listTags =
+                  (addlFields.listTags as string) ??
+                  (this.getNodeParameter('listTags', i) as string);
+                const customProperties =
+                  (addlFields.customProperties as any) ??
+                  (this.getNodeParameter('customProperties', i) as any);
 
                 // Подготавливаем объект пользователя
                 const userData: any = {};
@@ -3518,11 +3404,18 @@ export class Pachca implements INodeType {
                   {
                     method: 'GET',
                     url: `${credentials?.baseUrl}/messages`,
-                    qs: {
-                      chat_id: this.getNodeParameter('chatId', i),
-                      per: this.getNodeParameter('per', i, 25),
-                      page: this.getNodeParameter('page', i, 1),
-                    },
+                    qs: (() => {
+                      const opts =
+                        (this.getNodeParameter('paginationOptions', i) as {
+                          per?: number;
+                          page?: number;
+                        }) || {};
+                      return {
+                        chat_id: this.getNodeParameter('chatId', i),
+                        per: opts.per ?? (this.getNodeParameter('per', i, 25) as number),
+                        page: opts.page ?? (this.getNodeParameter('page', i, 1) as number),
+                      };
+                    })(),
                   }
                 );
                 break;
@@ -3850,8 +3743,19 @@ export class Pachca implements INodeType {
                 break;
               case 'getReadMembers':
                 const getReadMembersMessageId = this.getNodeParameter('messageId', i) as number;
-                const readMembersPer = this.getNodeParameter('readMembersPer', i) as number;
-                const readMembersPage = this.getNodeParameter('readMembersPage', i) as number;
+                const readMembersOpts =
+                  (this.getNodeParameter('readMembersOptions', i) as {
+                    readMembersPer?: number;
+                    readMembersPage?: number;
+                  }) || {};
+                const readMembersPer =
+                  readMembersOpts.readMembersPer ??
+                  (this.getNodeParameter('readMembersPer', i) as number) ??
+                  300;
+                const readMembersPage =
+                  readMembersOpts.readMembersPage ??
+                  (this.getNodeParameter('readMembersPage', i) as number) ??
+                  1;
 
                 responseData = await this.helpers.httpRequestWithAuthentication.call(
                   this,
@@ -4005,10 +3909,17 @@ export class Pachca implements INodeType {
                   {
                     method: 'GET',
                     url: `${credentials?.baseUrl}/chats`,
-                    qs: {
-                      per: this.getNodeParameter('per', i, 25),
-                      page: this.getNodeParameter('page', i, 1),
-                    },
+                    qs: (() => {
+                      const opts =
+                        (this.getNodeParameter('paginationOptions', i) as {
+                          per?: number;
+                          page?: number;
+                        }) || {};
+                      return {
+                        per: opts.per ?? (this.getNodeParameter('per', i, 25) as number),
+                        page: opts.page ?? (this.getNodeParameter('page', i, 1) as number),
+                      };
+                    })(),
                   }
                 );
                 break;
@@ -4084,9 +3995,17 @@ export class Pachca implements INodeType {
                 break;
               case 'getMembers':
                 const membersChatId = this.getNodeParameter('chatId', i) as number;
-                const role = this.getNodeParameter('role', i) as string;
-                const limit = this.getNodeParameter('limit', i) as number;
-                const cursor = this.getNodeParameter('cursor', i) as string;
+                const chatMembersOpts =
+                  (this.getNodeParameter('chatMembersOptions', i) as {
+                    role?: string;
+                    limit?: number;
+                    cursor?: string;
+                  }) || {};
+                const role = chatMembersOpts.role ?? (this.getNodeParameter('role', i) as string);
+                const limit =
+                  chatMembersOpts.limit ?? (this.getNodeParameter('limit', i) as number);
+                const cursor =
+                  chatMembersOpts.cursor ?? (this.getNodeParameter('cursor', i) as string);
 
                 const membersQuery: any = {};
                 if (role && role !== 'all') {
@@ -4186,10 +4105,17 @@ export class Pachca implements INodeType {
                   {
                     method: 'GET',
                     url: `${credentials?.baseUrl}/group_tags`,
-                    qs: {
-                      per: this.getNodeParameter('per', i, 25),
-                      page: this.getNodeParameter('page', i, 1),
-                    },
+                    qs: (() => {
+                      const opts =
+                        (this.getNodeParameter('paginationOptions', i) as {
+                          per?: number;
+                          page?: number;
+                        }) || {};
+                      return {
+                        per: opts.per ?? (this.getNodeParameter('per', i, 25) as number),
+                        page: opts.page ?? (this.getNodeParameter('page', i, 1) as number),
+                      };
+                    })(),
                   }
                 );
                 break;
@@ -4256,10 +4182,17 @@ export class Pachca implements INodeType {
                   {
                     method: 'GET',
                     url: `${credentials?.baseUrl}/group_tags/${getUsersGroupTagId}/users`,
-                    qs: {
-                      per: this.getNodeParameter('per', i, 25),
-                      page: this.getNodeParameter('page', i, 1),
-                    },
+                    qs: (() => {
+                      const opts =
+                        (this.getNodeParameter('paginationOptions', i) as {
+                          per?: number;
+                          page?: number;
+                        }) || {};
+                      return {
+                        per: opts.per ?? (this.getNodeParameter('per', i, 25) as number),
+                        page: opts.page ?? (this.getNodeParameter('page', i, 1) as number),
+                      };
+                    })(),
                   }
                 );
                 break;
@@ -4711,8 +4644,19 @@ export class Pachca implements INodeType {
                   'reactionsMessageId',
                   i
                 ) as number;
-                const reactionsPer = this.getNodeParameter('reactionsPer', i) as number;
-                const reactionsPage = this.getNodeParameter('reactionsPage', i) as number;
+                const reactionsOpts =
+                  (this.getNodeParameter('reactionsOptions', i) as {
+                    reactionsPer?: number;
+                    reactionsPage?: number;
+                  }) || {};
+                const reactionsPer =
+                  reactionsOpts.reactionsPer ??
+                  (this.getNodeParameter('reactionsPer', i) as number) ??
+                  50;
+                const reactionsPage =
+                  reactionsOpts.reactionsPage ??
+                  (this.getNodeParameter('reactionsPage', i) as number) ??
+                  1;
 
                 responseData = await this.helpers.httpRequestWithAuthentication.call(
                   this,
