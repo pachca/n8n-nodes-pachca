@@ -2258,18 +2258,19 @@ export class Pachca implements INodeType {
         },
         options: [
           {
-            displayName: 'Per Page',
+            displayName: 'Limit',
             name: 'reactionsPer',
             type: 'number',
             default: 50,
-            description: 'Number of reactions to return (max 50)',
+            description:
+              'Items per request (API limit, 1–50). See https://dev.pachca.com/api/reactions/list',
           },
           {
-            displayName: 'Page',
-            name: 'reactionsPage',
-            type: 'number',
-            default: 1,
-            description: 'Reactions page to fetch',
+            displayName: 'Cursor',
+            name: 'reactionsCursor',
+            type: 'string',
+            default: '',
+            description: 'Pagination cursor from meta.paginate.next_page (optional)',
           },
         ],
       },
@@ -3748,14 +3749,8 @@ export class Pachca implements INodeType {
                     readMembersPer?: number;
                     readMembersPage?: number;
                   }) || {};
-                const readMembersPer =
-                  readMembersOpts.readMembersPer ??
-                  (this.getNodeParameter('readMembersPer', i) as number) ??
-                  300;
-                const readMembersPage =
-                  readMembersOpts.readMembersPage ??
-                  (this.getNodeParameter('readMembersPage', i) as number) ??
-                  1;
+                const readMembersPer = readMembersOpts.readMembersPer ?? 300;
+                const readMembersPage = readMembersOpts.readMembersPage ?? 1;
 
                 responseData = await this.helpers.httpRequestWithAuthentication.call(
                   this,
@@ -4647,16 +4642,22 @@ export class Pachca implements INodeType {
                 const reactionsOpts =
                   (this.getNodeParameter('reactionsOptions', i) as {
                     reactionsPer?: number;
+                    reactionsCursor?: string;
+                    /** @deprecated legacy UI field; not sent to API */
                     reactionsPage?: number;
                   }) || {};
-                const reactionsPer =
-                  reactionsOpts.reactionsPer ??
-                  (this.getNodeParameter('reactionsPer', i) as number) ??
-                  50;
-                const reactionsPage =
-                  reactionsOpts.reactionsPage ??
-                  (this.getNodeParameter('reactionsPage', i) as number) ??
-                  1;
+                // Defaults must not use getNodeParameter('reactionsPer') — param lives only in collection
+                const reactionsLimit = Math.min(
+                  Math.max(Number(reactionsOpts.reactionsPer ?? 50), 1),
+                  50
+                );
+                const reactionsQs: { limit: number; cursor?: string } = {
+                  limit: reactionsLimit,
+                };
+                const reactionsCursorRaw = reactionsOpts.reactionsCursor;
+                if (typeof reactionsCursorRaw === 'string' && reactionsCursorRaw.trim() !== '') {
+                  reactionsQs.cursor = reactionsCursorRaw.trim();
+                }
 
                 responseData = await this.helpers.httpRequestWithAuthentication.call(
                   this,
@@ -4664,10 +4665,7 @@ export class Pachca implements INodeType {
                   {
                     method: 'GET',
                     url: `${credentials?.baseUrl}/messages/${getReactionsMessageId}/reactions`,
-                    qs: {
-                      per: reactionsPer,
-                      page: reactionsPage,
-                    },
+                    qs: reactionsQs,
                   }
                 );
                 break;
